@@ -10,41 +10,73 @@
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
 		<link rel="stylesheet" href="bootstrap/css/bootstrap-responsive.css">
 		<link rel="stylesheet" type="text/css" href="estilos/estilos.css">
+		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+	    <script src="bootstrap/js/jquery-1.8.3.min.js"></script>
+	    <script src="bootstrap/js/bootstrap.min.js"></script>
 	<title>Login</title>
 </head>
 <body background="images/fondotot.jpg" style="background-attachment: fixed" >
-	<center>
-		<div class="tit">
-			<h2 style="color: #; ">Inicio de sesión</h2>
-		</div>
-	<center>
+	<div class="container">
+		<header class="header">
+					<?php include ('cabecera.php');?>
+		</header>
 
-	<table border="0" align="center" valign="middle">
-		<form action="validar.php" method="post">
-			<tr>
-				<td><label style="font-size: 14pt"><b>Correo: </b></label></td>
-				<td><input class="form-group has-success" style="border-radius:15px;" type="text" name="mail"></td>
-			</tr>
-			<tr>
-				<td><label style="font-size: 14pt"><b>Contraseña: </b></label></td>
-				<td witdh=80><input style="border-radius:15px;" type="password" name="pass"></td>
-			</tr>
-			<tr>
-				<td width=80 align=center>
-					<input class="btn btn-danger" type="submit" value="Iniciar Sesión">
-				</td>
-      			<td width="80" align=center>
-          			<input class="btn btn-danger" type="submit" name="Accion" value="Registrar Usuario">
-          		</td>
-          	</tr> 
-          	<tr>
-        		<td height="50" align=center>
-		          <input class="btn btn-danger" type="submit" name="Accion" value="Recuperar Cuenta">
-		        </td>
-		        <td height="50" align=center>
-		        	<input class="btn btn-danger" type="submit" name="Accion" value="Página Inicio">
-		        </td>
-      		</tr>
-	</table>
+			<div class="navbar">
+				<ul class="nav pull-right">
+					<li><a href="index.php">Página Inicio</a></li>			 
+				</ul>
+			</div>
+			<div class= "navbar">
+				<ul class= "nav pull-right">
+					<li><a href="register.php">Registrarme</a></li>
+				</ul>
+			</div>
+
+		<center>
+			<div class="tit">
+				<h2 style="color: #; ">Inicio de sesión</h2>
+			</div>
+		<center>
+
+		<table border="0" align="center" valign="middle">
+			<form action="validar.php" method="post">
+				<tr>
+					<td><label style="font-size: 14pt"><b>Usuario: </b></label></td>
+					<td><input class="form-group has-success" style="border-radius:15px;" type="text" name="user"></td>
+				</tr>
+				<tr>
+					<td><label style="font-size: 14pt"><b>Contraseña: </b></label></td>
+					<td><input style="border-radius:15px;" type="password" name="pass"></td>
+				</tr>
+				<tr>
+					<td height="30" align=center colspan="2">
+						<input class="btn btn-danger" type="submit" value="Iniciar Sesión">
+					</td>
+	          	</tr> 
+	          	<tr>
+					<td height="30" align=center colspan="2">
+						<a href="recovery_user.php">¿Olvido su contraseña?</a>			 
+					</td>
+				</tr>
+		</table>
+
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<tr>
+			<div>
+				<footer align=left>
+					<hr class="soften"/>
+					<p>&copy; Copyright Keilor Jiménez</p>
+					<hr class="soften"/>
+				</footer>
+			</div>
+    </div>
+    
 </body>
 </html>
