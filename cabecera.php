@@ -1,5 +1,5 @@
 <div id="myCarousel" class="carousel slide homCar">
-			<div class="carousel-inner" style="border-top:18px solid #222; border-bottom:1px solid #222; border-radius:4px;">
+			<div class="carousel-inner" style="border-top:10px solid #222; border-bottom:1px solid #222; border-radius:8px;">
 			  <div class="item active">
 				<img src="images/carousel1.jpg" alt="#" style="height:250px; width:100%"/>
 				<div class="carousel-caption">

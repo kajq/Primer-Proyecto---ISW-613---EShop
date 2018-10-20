@@ -12,19 +12,22 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
 
 </head>
-	<body>
+	<body background="images/fondotot.jpg" style="background-attachment: fixed">
 		<div class="container">
 			<header class="header">
-				<!-- Menu para inicio de sesión o registro -->
-				<div class="navbar">
-					<ul class="nav pull-right">
-						<li><a href="login.php">Iniciar Sesión </a></li>
-						<li><a href="Registrar.php">Registrarse </a></li>			 
-					</ul>
-				</div>
-				<!-- Include para introducir carousel de imagenes -->
 				<?php include ('cabecera.php');?>
 			</header>
+
+			<div class="navbar">
+				<ul class="nav pull-right">
+					<li><a href="login.php">Iniciar Sesión</a></li>			 
+				</ul>
+			</div>
+			<div class= "navbar">
+				<ul class= "nav pull-right">
+					<li><a href="register.php">Regitrarme</a></li>
+				</ul>
+			</div>
 
 			<h3>Te ofrecemos las las siguientes categorias de productos</h3>
 			<div class="row" style="text-align:center">
@@ -91,12 +94,10 @@
 			</div>
 			<hr/>
 			
-			<hr class="soften"/>
-			<footer class="footer">
-
-			<hr class="soften"/>
-			<p>&copy; Copyright Keilor Jiménez<br/><br/></p>
-			 </footer>
+			<footer>
+				<p>&copy; Copyright Keilor Jiménez</p>
+				<hr class="soften"/>
+			</footer>
 			</div>
 			</style>
 	</body>v
