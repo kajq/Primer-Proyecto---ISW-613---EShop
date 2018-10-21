@@ -1,45 +1,55 @@
 <?php
-session_start();
-
+require("connect_db.php");
 class users{
 
 	private $connect_db;
+	public $Accion;
 	private $user;
 	private $name;
 	private $lastname;
 	private $phone;
 	private $email;
 	private $password;
+	public $email_exist;
 
+//Constructor valida si se esta registrando o editando un usurio y carga las variables
 	function users(){
 		$this->connect_db = $_SESSION['connect'];
-		$this->user=		$_POST['user'];
-		$this->name=		$_POST['name'];
-		$this->lastname =	$_POST['lastname'];
-		$this->phone = 		$_POST['phone'];
-		$this->email = 		$_POST['email'];
+		if (@!$_SESSION['user']) {
+		    $this->Accion=    "Registrar";
+		    $this->user=		"";
+			$this->name=		"";
+			$this->lastname =	"";
+			$this->phone = 		"";
+			$this->email = 		"";
+		} else {
+		    $this->Accion=    "Editar";
+		    $this->user =     $_SESSION['user'];
+		    $this->name =     $_SESSION['name'];
+		    $this->lastname = $_SESSION['lastname'];
+		    $this->phone =    $_SESSION['phone'];
+		    $this->email =    $_SESSION['email'];
+		}
 	}
 
 	//Función que verifica que el email no exista en la bd
 	function check_mail(){
-		$qMails = ("SELECT email FROM person WHERE email = '$this->email'");
-		$execute=mysqli_query($this->connect_db, $qMails);
+		$qMails  = ("SELECT email FROM person WHERE email = '$this->email'");
+		$execute = mysqli_query($this->connect_db, $qMails);
 
 		if($exists = mysqli_fetch_assoc($execute)){
-			echo '<script>alert("Error: $this->email ya esta asignado a un usuario, verifique sus datos")</script> ';
+			echo '<script>alert("Error: Correo ya esta asignado a un usuario, verifique sus datos")</script> ';
 			echo "<script>location.href='register.php'</script>";
-			$exists = true;
+			$this->email_exist = true;
 		} else {
-			$exists = false;
+			$this->email_exist = false;
 		}
-
-		return $exists;
 	}
 
 	//Función que genera una contraseña aleatoreamente
 	function get_pass(){
 		for ($i=0; $i < 12; $i++) { 
-			$this->password = $this->password . chr(rand(65,90);
+			$this->password = $this->password . chr(rand(65,90));
 		}
 	}
 
@@ -53,31 +63,36 @@ class users{
 		
 		sendemail($this->email, $this->name, $this->email, $txt_message, $mail_subject, 
 		$template);//Enviar el mensaje
-		echo "<script>location.href='index.php'</script>";
+		//echo "<script>location.href='index.php'</script>";
 	}
 
 	//funcion que inserta en la tabla user y person
 	function insert_user(){
-		$qInsert = "INSERT INTO person VALUES('$this->user','$this->name', '$this->lastname', 
-		'$this->lastname', '$this->email')"
-		$execute = mysqli_query($this->connect_db,$qInsert);
+		//se capturan los parametros del post
+	   	$this->user=		$_POST['user'];
+		$this->name=		$_POST['name'];
+		$this->lastname =	$_POST['lastname'];
+		$this->phone = 		$_POST['phone'];
+		$this->email = 		$_POST['email'];
 
+		$qInsert = "INSERT INTO person VALUES('$this->user','$this->name', '$this->lastname', '$this->phone', '$this->email')";
+		$execute = mysqli_query($this->connect_db,$qInsert);
+		//validación de error en bd
 		if (!$execute) {
-			echo ' <script language="javascript">alert("Error al insertar datos personales: ';
+			echo '<script>alert("Error al insertar datos personales: ';
 			echo $this->connect_db->error;
 			echo '");</script> ';
 		} else {
-			get_pass();
+			//los ceros son tipo usuario estandar y estado de usuario
 			$qInsert = "INSERT INTO users VALUES('$this->user', '$this->password', 0, 0)";
-			$execute = mysqli_query($mysqli,$qInsert);
+			$execute = mysqli_query($this->connect_db,$qInsert);
 			if (!$execute) {
-				echo '<script>alert("Errormessage1: " . $mysqli->error)';
+				echo '<script>alert("Errormessage1: "';
+				echo $this->connect_db->error . "')</script>";
 			} else {
-				echo ' <script>alert("Usuario  $this->user registrado con éxito")</script>';
-				function sendemail();	
+				echo '<script>alert("Usuario registrado con éxito")</script>';
 				}
 			}
 	}
-
 }
 ?>

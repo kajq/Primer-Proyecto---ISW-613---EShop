@@ -1,44 +1,6 @@
-<?php
-$register = new register();
-$register->validate();
-
-class register{ 
-
-  public $user;
-  public $name;
-  public $lastname;
-  public $phone;
-  public $email;
-  private $connect_db;
-
-  function register(){
-    session_start();
-    $this->connect_db = $_SESSION['connect'];
-  }
-
-  function validate(){
-    if (@!$_SESSION['user']) {
-    $this->Accion=    "Registrar";
-    $this->user =     "";
-    $this->name =     "";
-    $this->lastname = "";
-    $this->phone =    "";
-    $this->email =    "";
-    } else {
-    $this->Accion=    "Editar";
-    $this->user =     $_SESSION['user'];
-    $this->name =     $_SESSION['name'];
-    $this->lastname = $_SESSION['lastname'];
-    $this->phone =    $_SESSION['phone'];
-    $this->email =    $_SESSION['email'];
-    }
-  }
-}
-?>
 <!DOCTYPE html>
 <html>
 <head>
-
 	<meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -52,6 +14,8 @@ class register{
   <body background="images/fondotot.jpg" style="background-attachment: fixed" >
   	<center><div class="tit"><h2 style="color: #; ">Formulario de usuario</h2>
   	<center><div class="Ingreso">
+      <tr>
+      <td rowspan=2>
     	<table border="0" align="center" valign="middle">
       <form method="post" action="" >
           <div class="form-group">
@@ -61,7 +25,7 @@ class register{
           </div>
           <div class="form-group">
             <label style="font-size: 14pt; color: #;"><b>Apellidos</b>
-            <input type="text" name="lastname"  class="form-control"  required 
+            <input type="text" name="lastname"  class="form-control" required 
              placeholder="Ingresa tus apellidos"/></label>
           </div>
           <div class="form-group">
@@ -70,19 +34,22 @@ class register{
              placeholder="Ingresa usuario"/></label>
           </div>
           <div class="form-group">
-            <label style="font-size: 14pt; color: #;"><b>Número de teléfono</b>
-            <input type="text" name="telefono" class="form-control"  required 
+            <label style="font-size: 14pt; color: #;"><b>Número teléfono</b>
+            <input type="number" name="phone" class="form-control"  required 
             placeholder="Ingresa tu número"/></label>
           </div>
           <div class="form-group">
             <label style="font-size: 14pt; color: #;"><b>Correo Electronico</b>
-            <input type="text" name="email" class="form-control"  required 
+            <input type="email" name="email" class="form-control"  required 
             placeholder="Ingresa tu email"/></label>
           </div> 
         </div>
        
     <?php
-      if ($this->Accion == "Registrar"){
+    session_start();
+    require("users.php");
+     $user = new users();
+      if ($user->Accion == "Registrar"){
       echo "<input  class='btn btn-primary' type='submit' name='new' value='Registrarse'/> </form>" ;
       echo "<form action=\"index.php\"><input class=\"btn btn-danger\" type=\"submit\" value=\"Cancelar\"> </form>";	
       }else if ($this->Accion == "Editar"){
@@ -93,10 +60,12 @@ class register{
         echo 'header("Location: index.php")';
       }
       if(isset($_POST['new'])){
-        $users = new users();
-        if ($users->check_mail() == false) {
-          $users->insert_user();
-        }
+        $user->check_mail();
+        if ($user->email_exist == false) {
+          $user->get_pass();
+          $user->insert_user();
+          $user->sendemail(); 
+        }  
       }
       if(isset($_POST['update'])){
           require("ejecutaactualizar.php");
@@ -104,10 +73,9 @@ class register{
     	?>
 
     </div>
-  		
+  		</td>
+      </tr>
   		</table>
   		</div></center></div></center>
-
-  	
   </body>
 </html>
