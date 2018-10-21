@@ -39,7 +39,7 @@
 		<center>
 
 		<table border="0" align="center" valign="middle">
-			<form action="validar.php" method="post">
+			<form action="check_user.php" method="post">
 				<tr>
 					<td><label style="font-size: 14pt"><b>Usuario: </b></label></td>
 					<td><input class="form-group has-success" style="border-radius:15px;" type="text" name="user"></td>
