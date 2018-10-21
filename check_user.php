@@ -1,6 +1,5 @@
 <?php
 session_start();
-require("connect_db.php");
 
 $init = new check_user();
 $init->check_userdb();
