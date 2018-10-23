@@ -37,7 +37,7 @@ class users{
 		$qMails  = ("SELECT email FROM person WHERE email = '$this->email'");
 		$execute = mysqli_query($this->connect_db, $qMails);
 
-		if($exists = mysqli_fetch_assoc($execute)){
+		if(!$exists = mysqli_fetch_assoc($execute)){
 			echo '<script>alert("Error: Correo ya esta asignado a un usuario, verifique sus datos")</script> ';
 			echo "<script>location.href='register.php'</script>";
 			$this->email_exist = true;
@@ -57,12 +57,13 @@ class users{
 	function sendemail(){
 		include("sendemail.php");//Llama la funcion para enviar el correo electronico
 		$template="email_template.html";//Ruta de la plantilla correo
-		$txt_message="Se ha creado exitosamente su usuario en el sistema TaskManager, su administrador de tareas. Para ingresar debes utilizar la contraseña temporal: [ $this->password ]. 
-		Ingresa al sistema y cambiar la contraseña para terminar el registro.";
-		$mail_subject="Registro exitoso";
+		$txt_message="Se ha creado exitosamente su usuario en www.e-shop.com, su tienda online preferida. 
+		Para ingresar debes utilizar la contraseña: [ $this->password ]. 
+		Por seguridad es importante que cambies la contraseña al ingresar.
+		";
+		$mail_subject="Usuario Registrado exitosamente";
 		
-		sendemail($this->email, $this->name, $this->email, $txt_message, $mail_subject, 
-		$template);//Enviar el mensaje
+		sendemail($this->email, $this->name, $this->email, $txt_message, $mail_subject, $template);//Enviar el mensaje
 		//echo "<script>location.href='index.php'</script>";
 	}
 

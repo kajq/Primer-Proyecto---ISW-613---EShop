@@ -29,7 +29,7 @@
 			</div>
 			<div class= "navbar">
 				<ul class= "nav pull-right">
-					<li><a href="register.php">Regitrarme</a></li>
+					<li><a href="register.php">Registrarme</a></li>
 				</ul>
 			</div>
 
