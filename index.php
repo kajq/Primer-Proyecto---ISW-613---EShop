@@ -1,6 +1,6 @@
 <?php 
-  session_start();
-  require("connect_db.php");
+	session_start();
+	require("connect_db.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -10,7 +10,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="Keilor Jiménez">
-
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <script src="bootstrap/js/jquery-1.8.3.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
@@ -21,18 +20,10 @@
 			<header class="header">
 				<?php include ('cabecera.php');?>
 			</header>
-
-			<div class="navbar">
-				<ul class="nav pull-right">
-					<li><a href="login.php">Iniciar Sesión</a></li>			 
-				</ul>
+			<div>
+				<?php include ('menu.php'); ?>
 			</div>
-			<div class= "navbar">
-				<ul class= "nav pull-right">
-					<li><a href="register.php">Registrarme</a></li>
-				</ul>
-			</div>
-
+			<br><br>
 			<h3>Te ofrecemos las las siguientes categorias de productos</h3>
 			<div class="row" style="text-align:center">
 				<div class="span2">
@@ -97,12 +88,11 @@
 
 			</div>
 			<hr/>
-			
 			<footer>
 				<p>&copy; Copyright Keilor Jiménez</p>
 				<hr class="soften"/>
 			</footer>
 			</div>
 			</style>
-	</body>v
+	</body>
 </html>

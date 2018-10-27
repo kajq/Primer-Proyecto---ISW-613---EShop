@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+require("connect_db.php");
 $init = new check_user();
 $init->check_userdb();
 
@@ -11,8 +11,8 @@ class check_user{
 	private $connect_db;
 
 	function check_user(){
-		$this->user=$_POST['user'];
-		$this->pass=$_POST['pass'];
+		$this->user=		$_POST['user'];
+		$this->pass=		$_POST['pass'];
 		$this->connect_db = $_SESSION['connect'];
 	}	
 
@@ -35,7 +35,7 @@ class check_user{
 		if($user['rol']=='1'){
 			echo '<script>alert("Bienvenido administrador")</script> ';
 		}
-		echo "<script>location.href='dashboard.php'</script>";	
+		echo "<script>location.href='index.php'</script>";	
 
 	}else{
 		echo '<script>alert("Usuario o Contraseña incorrecto!")</script> ';

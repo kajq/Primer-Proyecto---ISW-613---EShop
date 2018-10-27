@@ -75,7 +75,6 @@
         </tr>
         <tr>         
         <?php
-        session_start();
         require("users.php");
          $user = new users();
           if ($user->Accion == "Registrar"){

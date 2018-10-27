@@ -1,4 +1,5 @@
 <?php
+session_start();
 require("connect_db.php");
 class users{
 
@@ -37,9 +38,9 @@ class users{
 		$qMails  = ("SELECT email FROM person WHERE email = '$this->email'");
 		$execute = mysqli_query($this->connect_db, $qMails);
 
-		if(!$exists = mysqli_fetch_assoc($execute)){
+		if($exists = mysqli_fetch_assoc($execute)){
 			echo '<script>alert("Error: Correo ya esta asignado a un usuario, verifique sus datos")</script> ';
-			echo "<script>location.href='register.php'</script>";
+			//echo "<script>location.href='register.php'</script>";
 			$this->email_exist = true;
 		} else {
 			$this->email_exist = false;
