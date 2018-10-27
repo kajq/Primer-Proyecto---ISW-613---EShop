@@ -31,7 +31,7 @@ class menu
 		} else {
 			echo "<div class='navbar'>
 					<ul class='nav pull-right'>
-					 	<li><a href='sign_off.php'>Cerrar Sesión</a></li>		 
+					 	<li><a href='../class/sign_off.php'>Cerrar Sesión</a></li>		 
 					</ul>
 				  </div>";
 			echo "<div class='navbar'>

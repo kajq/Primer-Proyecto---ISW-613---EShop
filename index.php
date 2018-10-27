@@ -1,6 +1,6 @@
 <?php 
 	session_start();
-	require("connect_db.php");
+	require("class/connect_db.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -18,10 +18,10 @@
 	<body background="images/fondotot.jpg" style="background-attachment: fixed">
 		<div class="container">
 			<header class="header">
-				<?php include ('cabecera.php');?>
+				<?php include ('include/cabecera.php');?>
 			</header>
 			<div>
-				<?php include ('menu.php'); ?>
+				<?php include ('include/menu.php'); ?>
 			</div>
 			<br><br>
 			<h3>Te ofrecemos las las siguientes categorias de productos</h3>

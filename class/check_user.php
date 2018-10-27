@@ -35,11 +35,11 @@ class check_user{
 		if($_SESSION['rol']=='1'){
 			echo '<script>alert("Bienvenido administrador")</script> ';
 		}
-		echo "<script>location.href='index.php'</script>";	
+		echo "<script>location.href='../index.php'</script>";	
 
 	}else{
 		echo '<script>alert("Usuario o Contraseña incorrecto!")</script> ';
-		echo "<script>location.href='login.php'</script>";	
+		echo "<script>location.href='../login.php'</script>";	
 	}
 	}
 }	

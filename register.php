@@ -17,7 +17,7 @@
   <body background="images/fondotot.jpg"style="background-attachment: fixed" >
     <div class="container">
       <header class="header">
-          <?php include ('cabecera.php');?>
+          <?php include ('include/cabecera.php');?>
       </header>
     	<center>
         <div class="tit"><h2 style="color: #; ">Formulario de usuario</div>
@@ -75,7 +75,7 @@
         </tr>
         <tr>         
         <?php
-        require("users.php");
+        require("class/users.php");
          $user = new users();
           if ($user->Accion == "Registrar"){
             echo "<td><input  class='btn btn-primary' type='submit' name='new' value='Registrarse'/> </td>" ;

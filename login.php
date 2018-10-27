@@ -17,7 +17,7 @@
 <body background="images/fondotot.jpg" style="background-attachment: fixed" >
 	<div class="container">
 		<header class="header">
-					<?php include ('cabecera.php');?>
+					<?php include ('include/cabecera.php');?>
 		</header>
 			<div class="navbar">
 				<ul class="nav pull-right">
@@ -37,7 +37,7 @@
 		<center>
 
 		<table border="0" align="center" valign="middle">
-			<form action="check_user.php" method="post">
+			<form action="class/check_user.php" method="post">
 				<tr>
 					<td><label style="font-size: 14pt"><b>Usuario: </b></label></td>
 					<td><input class="form-group has-success" style="border-radius:15px;" type="text" name="user"></td>
@@ -53,7 +53,7 @@
 	          	</tr> 
 	          	<tr>
 					<td height="30" align=center colspan="2">
-						<a href="recovery_user.php">¿Olvido su contraseña?</a>			 
+						<a href="recovery_pass.php">¿Olvido su contraseña?</a>			 
 					</td>
 				</tr>
 		</table>
