@@ -57,9 +57,14 @@ class menu
 					  </div>";	  	  
 				echo "<div class='navbar'>
 						<ul class='nav pull-right'>
-							<li><a href='categories.php'>Categorias</a></li>		 
+							<li><a href='admin_categories.php'>Categorias</a></li>		 
 						</ul>
-					  </div>";	  
+					  </div>";
+				echo "<div class='navbar'>
+						<ul class='nav pull-right'>
+							<li><a href='Index.php'>Inicio</a></li>		 
+						</ul>
+					  </div>";	  	  
 			}	  
 		}
 	}
