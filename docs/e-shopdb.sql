@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-10-2018 a las 07:14:33
+-- Tiempo de generación: 27-10-2018 a las 20:17:45
 -- Versión del servidor: 10.1.35-MariaDB
 -- Versión de PHP: 7.2.9
 
@@ -31,7 +31,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `categories` (
   `id` int(11) NOT NULL,
   `description` varchar(30) NOT NULL,
-  `id_subcategory` int(11) NOT NULL,
+  `id_supercategory` int(11) NOT NULL,
   `state` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -48,6 +48,15 @@ CREATE TABLE `person` (
   `phone` int(8) NOT NULL,
   `email` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `person`
+--
+
+INSERT INTO `person` (`user`, `name`, `last_name`, `phone`, `email`) VALUES
+('bajd', 'Andres', 'Jimenez', 89621230, 'kajimenezq@est.utn.ac.cr'),
+('kajq', 'Keilor', 'Jimenez', 89621230, 'keilorjimenez95@gmail.com'),
+('kldc', 'Katherine', 'Diaz', 85521412, 'keilorjimenez95@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -101,8 +110,18 @@ CREATE TABLE `sold_products` (
 CREATE TABLE `users` (
   `user` varchar(12) NOT NULL,
   `password` varchar(15) NOT NULL,
-  `rol` tinyint(1) NOT NULL
+  `rol` tinyint(1) NOT NULL,
+  `state` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `users`
+--
+
+INSERT INTO `users` (`user`, `password`, `rol`, `state`) VALUES
+('bajd', '123', 0, 0),
+('kajq', '123', 1, 0),
+('kldc', '123', 0, 0);
 
 --
 -- Índices para tablas volcadas
@@ -113,7 +132,7 @@ CREATE TABLE `users` (
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_subcategory` (`id_subcategory`);
+  ADD KEY `id_subcategory` (`id_supercategory`);
 
 --
 -- Indices de la tabla `person`
@@ -181,7 +200,7 @@ ALTER TABLE `sold_products`
 -- Filtros para la tabla `categories`
 --
 ALTER TABLE `categories`
-  ADD CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`id_subcategory`) REFERENCES `categories` (`id`);
+  ADD CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`id_supercategory`) REFERENCES `categories` (`id`);
 
 --
 -- Filtros para la tabla `products`
