@@ -32,7 +32,7 @@ class check_user{
 		$_SESSION['last_name']= $user['last_name'];
 		$_SESSION['email']	  = $user['email'];
 		
-		if($user['rol']=='1'){
+		if($_SESSION['rol']=='1'){
 			echo '<script>alert("Bienvenido administrador")</script> ';
 		}
 		echo "<script>location.href='index.php'</script>";	

@@ -1,6 +1,3 @@
-<?php 
-	session_start();
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,7 +19,6 @@
 		<header class="header">
 					<?php include ('cabecera.php');?>
 		</header>
-
 			<div class="navbar">
 				<ul class="nav pull-right">
 					<li><a href="index.php">Página Inicio</a></li>			 

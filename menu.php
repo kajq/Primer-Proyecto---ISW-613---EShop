@@ -12,7 +12,7 @@ class menu
 	function menu()
 	{
 		$this->connect_db	= $_SESSION['connect'];
-		$this->rol = isset($_SESSION['rol']); //? $_SESSION['rol'] : null;
+		$this->rol = isset($_SESSION['rol'])? $_SESSION['rol'] : null ;
 	}
 
 	function show_menu()
@@ -44,7 +44,7 @@ class menu
 					 	<li><a href='shopping_car.php'>Lista de deseos</a></li>		 
 					</ul>
 				  </div>";	  	    	
-			if ($this->rol == 1) {
+			if ($this->rol == '1') {
 				echo "<div class='navbar'>
 						<ul class='nav pull-right'>
 							<li><a href='admins.php'>Administradores</a></li>		 
