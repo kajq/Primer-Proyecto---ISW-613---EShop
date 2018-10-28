@@ -4,6 +4,9 @@
 		echo '<script>alert("Usuario no autorizado!!")</script> ';
 		echo "<script>location.href='index.php'</script>";	
 	}
+	include ('class/categories.php');
+	$oCategoria = new categories();
+	
 ?>
 <!DOCTYPE html>
 <html>
@@ -40,7 +43,16 @@
                 	include ('include/new_category.php');
                 } ?>		
 			</div>
-
+			<table border='1' class='table table-hover'>
+				<tr class='warning'>
+					<td>Categoria Padre</td>
+					<td>Categoria</td>
+					<td>Estado</td>
+					<td>Editar</td>
+					<td>Eliminar</td>
+				</tr>
+			<?php $oCategoria->category_table(); ?>
+			</table>
 			<hr/>
 			<footer>
 				<p>&copy; Copyright Keilor Jiménez</p>

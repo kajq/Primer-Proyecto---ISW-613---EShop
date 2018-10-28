@@ -5,12 +5,14 @@
 		<b>Categoria Padre</b>
 		<select name="supercategory" style="border-radius:15px;"> 
 			<option value=""></option>
-		<?php require("class/categories.php");
-         	$Categorias = new categories();
-         	$Categorias->Select();   			
+		<?php 
+         	$oCategoria->Select();   			
         ?>
-        </select>	
-        <input type="submit" class="btn btn-danger" value="Guardar">
+        </select>
+        <b>Activo</b>
+        <input type="checkbox" name="state" checked="true">
+        <b style='padding-left: 6em'></b>
+        <input type="submit" class="btn btn-danger" value="Guardar" >
         <input type="submit" class="btn btn-danger" value="Cancelar" onclick = "window.location.href='../admin_categories.php'">
         
 	</label>

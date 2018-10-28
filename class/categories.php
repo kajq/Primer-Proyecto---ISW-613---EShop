@@ -3,11 +3,12 @@
  * 
  */
 require("connect_db.php");
+//$oCategoria = new categories();
 $action = isset($_GET["action"]) ? $_GET["action"] : "";
     if ($action == 'insert') {
-    	$Categorias = new categories();
-    	$Categorias->insert_category();
+    	$oCategoria->insert_category();
     }  
+
 class categories
 {
 	private $id;
@@ -38,6 +39,24 @@ class categories
 			echo '<option value="">No hay categorias disponibles</option>';
 		} 
 	}
+
+	function category_table(){
+		$sql=("SELECT sup.description, cat.description, cat.state 
+			FROM categories cat
+			 LEFT JOIN categories sup
+			 ON sup.id = cat.id_supercategory");
+		$qSelect = $this->connect_db->query($sql);
+		while($arreglo=mysqli_fetch_array($qSelect)){
+			echo "<tr class='success'>";
+			echo 	"<td>$arreglo[0]</td>";
+			echo 	"<td>$arreglo[1]</td>";
+			echo 	"<td>$arreglo[2]</td>";
+			echo 	"<td><a href='categories.php?action=Update'><img src='../images/update.jpg' class='img-rounded' width='25'></td>";
+			echo 	"<td><a href='categories.php?action=Delete'><img src='../images/delete.png' class='img-rounded' width='25'></td>";
+			echo "</tr>";
+		}
+	}
+
 	function insert_category(){
 		$this->description = $_POST['description'];
 		$this->supercategory= $_POST['supercategory'];
@@ -56,24 +75,7 @@ class categories
 	}
 }
 			/*
-			echo "<table border='1'; class='table table-hover';>";
-			echo "<tr class='warning'>";
-			echo "<td>Correo</td>";
-			echo "<td>Rol</td>";
-			echo "<td>Cambiar</td>";
-			echo "<td>Eliminar</td>";
-			echo "</tr>";
-
-			while($arreglo=mysqli_fetch_array($query)){
-				echo "<tr class='success'>";
-				echo "<td>$arreglo[0]</td>";
-				echo "<td>$arreglo[2]</td>";
-
-				echo "<td><a href='admin.php?id=$arreglo[0]&rol=$arreglo[2]&id_boton=1'><img src='images/actualizar.png' class='img-rounded'></td>";
-				echo "<td><a href='admin.php?id=$arreglo[0]&id_boton=2'><img src='images/eliminar.ol.png' class='img-rounded'/></a></td>";
-				echo "</tr>";
-			}
-				echo "</table>";
+			
 			extract($_GET);
 			if(@$id_boton==1){
 				if(@$rol=='Usuario'){	
