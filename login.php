@@ -58,15 +58,7 @@
 				</tr>
 		</table>
 
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<tr>
+		<br><br><br><br><br><br><br><br>
 			<div>
 				<footer align=left>
 					<hr class="soften"/>

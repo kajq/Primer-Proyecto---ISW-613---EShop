@@ -3,8 +3,11 @@
  * 
  */
 require("connect_db.php");
-//$Categorias = new categories();
-//$Categorias->insert_category();   
+$action = isset($_GET["action"]) ? $_GET["action"] : "";
+    if ($action == 'insert') {
+    	$Categorias = new categories();
+    	$Categorias->insert_category();
+    }  
 class categories
 {
 	private $id;
@@ -20,15 +23,19 @@ class categories
 
 	function select()
 	{
-		$sql=("SELECT * from categories where state = 3");
-		
+		$sql=("SELECT * from categories where state = 2");
+		$cont = 0;
 		//la variable  $mysqli viene de connect_db que lo traigo con el require("connect_db.php");
 		$qSelect = $this->connect_db->query($sql);
 		if ($qSelect <> 'Error') {
 			while($categoria = $qSelect->fetch_object()){
             echo '<option value=' . $categoria->id . '> ' .
              $categoria->description . '</option>';
+            $cont++; 
           }
+		} 
+		if ($cont == 0){
+			echo '<option value="">No hay categorias disponibles</option>';
 		} 
 	}
 	function insert_category(){
@@ -40,9 +47,10 @@ class categories
 		$execute = mysqli_query($this->connect_db,$qInsert);
 		//validación de error en bd
 		if (!$execute) {
-			echo '<script>alert("Error al insertar categoria:"'. $this->connect_db->error . ')</script> ';
+			echo "Error al insertar categoria: ". $this->connect_db->error;
 		} else {
 			echo '<script>alert("Categoria "'. $this->description . ' agregada exitosamente)</script> ';
+			echo "<script>location.href='../admin_categories.php'</script>";	
 		}
 
 	}

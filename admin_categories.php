@@ -29,7 +29,7 @@
 			</div>
 			<br><br>
 			<div class = "nav-collapse">
-				<h3>Categorias de Productos 
+				<h3>Categorias de Productos  
 					<a href="admin_categories.php?action=new">
                         <img src='images/new.png' title="Nueva Categoria" width="25" />
                     </a>
