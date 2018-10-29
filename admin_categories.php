@@ -6,7 +6,11 @@
 	}
 	include ('class/categories.php');
 	$oCategoria = new categories();
-	
+	extract($_GET);
+	$action = isset($_GET["action"]) ? $_GET["action"] : "";
+    if ($action == 'insert') {
+    	$oCategoria->insert_category();
+	} 	
 ?>
 <!DOCTYPE html>
 <html>
@@ -33,17 +37,17 @@
 			<br><br>
 			<div class = "nav-collapse">
 				<h3>Categorias de Productos  
-					<a href="admin_categories.php?action=new">
+					<a href="../admin_categories.php?action=new">
                         <img src='images/new.png' title="Nueva Categoria" width="25" />
                     </a>
                 </h3>
 	                <?php 
                 $action = isset($_GET["action"]) ? $_GET["action"] : "";
-                if ($action == 'new') {
+                if ($action == 'new' || $action == 'update') {
                 	include ('include/new_category.php');
                 } ?>		
 			</div>
-			<table border='1' class='table table-hover'>
+			<table border='0' class='table table-hover'>
 				<tr class='warning'>
 					<td>Categoria Padre</td>
 					<td>Categoria</td>
@@ -51,7 +55,9 @@
 					<td>Editar</td>
 					<td>Eliminar</td>
 				</tr>
-			<?php $oCategoria->category_table(); ?>
+			<?php 
+				$oCategoria->category_table(); 
+			?>
 			</table>
 			<hr/>
 			<footer>

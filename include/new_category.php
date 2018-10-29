@@ -1,4 +1,4 @@
-<form  action="../class/categories.php?action=insert" method="post"  name='new'>
+<form  action="../admin_categories.php?action=insert" method="post">
 	<label style="font-size: 10pt">
 		<b>Descripción</b>	
 		<input style="border-radius:15px;" type="text" name="description" required>
@@ -10,7 +10,7 @@
         ?>
         </select>
         <b>Activo</b>
-        <input type="checkbox" name="state" checked="true">
+        <input class="form-check-input" type="checkbox" name="state" checked="true">
         <b style='padding-left: 6em'></b>
         <input type="submit" class="btn btn-danger" value="Guardar" >
         <input type="submit" class="btn btn-danger" value="Cancelar" onclick = "window.location.href='../admin_categories.php'">

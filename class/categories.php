@@ -3,11 +3,6 @@
  * 
  */
 require("connect_db.php");
-//$oCategoria = new categories();
-$action = isset($_GET["action"]) ? $_GET["action"] : "";
-    if ($action == 'insert') {
-    	$oCategoria->insert_category();
-    }  
 
 class categories
 {
@@ -24,9 +19,9 @@ class categories
 
 	function select()
 	{
-		$sql=("SELECT * from categories where state = 2");
+		//Consulta de categorias simples
+		$sql=("SELECT * FROM categories WHERE state = 1");
 		$cont = 0;
-		//la variable  $mysqli viene de connect_db que lo traigo con el require("connect_db.php");
 		$qSelect = $this->connect_db->query($sql);
 		if ($qSelect <> 'Error') {
 			while($categoria = $qSelect->fetch_object()){
@@ -41,26 +36,35 @@ class categories
 	}
 
 	function category_table(){
-		$sql=("SELECT sup.description, cat.description, cat.state 
+		$sql=("SELECT cat.id, sup.description, cat.description, cat.state 
 			FROM categories cat
 			 LEFT JOIN categories sup
 			 ON sup.id = cat.id_supercategory");
 		$qSelect = $this->connect_db->query($sql);
+		$cont = 0;
 		while($arreglo=mysqli_fetch_array($qSelect)){
 			echo "<tr class='success'>";
-			echo 	"<td>$arreglo[0]</td>";
 			echo 	"<td>$arreglo[1]</td>";
 			echo 	"<td>$arreglo[2]</td>";
-			echo 	"<td><a href='categories.php?action=Update'><img src='../images/update.jpg' class='img-rounded' width='25'></td>";
-			echo 	"<td><a href='categories.php?action=Delete'><img src='../images/delete.png' class='img-rounded' width='25'></td>";
+			echo 	"<td>$arreglo[3]</td>";
+			echo 	"<td><a href='admin_categories.php?action=update&id=$arreglo[0]'><img src='../images/update.jpg' class='img-rounded' width='25'></td>";
+			echo 	"<td><a href='admin_categories.php?action=delete&id=$arreglo[0]'><img src='../images/delete.png' class='img-rounded' width='25'></td>";
 			echo "</tr>";
+			$cont++;
+		}
+		if ($cont == 0) {
+			echo "<tr> <td colspan='5'>No hay categorias registradas</td> </tr>";
 		}
 	}
 
 	function insert_category(){
-		$this->description = $_POST['description'];
+		$this->description 	= $_POST['description'];
 		$this->supercategory= $_POST['supercategory'];
-		$this->state 		= 2;//0=inactivo, 1=activo, 2=Supercategoria
+		$this->state     	= isset($_POST['state']) ? $_POST['state'] : "";
+		if ($this->state == true) {
+			$this->state = 1;
+		} else { $this->state = 0; }
+		//0=inactivo, 1=activo, 2=Supercategoria
 		//inicia en estado 2 ya que al ser nuevol no tiene subcategorias
 		$qInsert = "INSERT INTO categories VALUES('','$this->description', '$this->supercategory', '$this->state')";
 		$execute = mysqli_query($this->connect_db,$qInsert);
@@ -68,10 +72,12 @@ class categories
 		if (!$execute) {
 			echo "Error al insertar categoria: ". $this->connect_db->error;
 		} else {
-			echo '<script>alert("Categoria "'. $this->description . ' agregada exitosamente)</script> ';
-			echo "<script>location.href='../admin_categories.php'</script>";	
+			if ($this->supercategory > 0) {
+				//update del estado de la categoria a supercategoria
+				$sql="UPDATE categories SET state = 2 WHERE id = '$this->supercategory'";
+					mysqli_query($this->connect_db,$sql);
+			}
 		}
-
 	}
 }
 			/*
