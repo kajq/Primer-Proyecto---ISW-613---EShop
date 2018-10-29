@@ -7,10 +7,13 @@
 	include ('class/categories.php');
 	$oCategoria = new categories();
 	extract($_GET);
-	$action = isset($_GET["action"]) ? $_GET["action"] : "";
-    if ($action == 'insert') {
-    	$oCategoria->insert_category();
-	} 	
+	$action	   = isset($_GET["action"]) ? $_GET["action"] : "";
+	$category  = isset($_GET["category"]) ? $_GET["category"] : "";
+	$id_superc = isset($_GET["id_superc"]) ? $_GET["id_superc"] : "";
+	$superc    = isset($_GET["superc"]) ? $_GET["superc"] : "";
+	$state     = isset($_GET["state"]) ? $_GET["state"] : 1;
+	if ($state == 0) {$check_state = "";} else {$check_state = "checked";}
+    if ($action == 'insert') {$oCategoria->insert_category();} 	
 ?>
 <!DOCTYPE html>
 <html>
@@ -42,7 +45,6 @@
                     </a>
                 </h3>
 	                <?php 
-                $action = isset($_GET["action"]) ? $_GET["action"] : "";
                 if ($action == 'new' || $action == 'update') {
                 	include ('include/new_category.php');
                 } ?>		

@@ -20,7 +20,7 @@ class categories
 	function select()
 	{
 		//Consulta de categorias simples
-		$sql=("SELECT * FROM categories WHERE state = 1");
+		$sql=("SELECT * FROM categories WHERE state <> 0");
 		$cont = 0;
 		$qSelect = $this->connect_db->query($sql);
 		if ($qSelect <> 'Error') {
@@ -36,19 +36,19 @@ class categories
 	}
 
 	function category_table(){
-		$sql=("SELECT cat.id, sup.description, cat.description, cat.state 
+		$sql=("SELECT cat.id, sup.description, cat.description, cat.state, sup.id 
 			FROM categories cat
 			 LEFT JOIN categories sup
 			 ON sup.id = cat.id_supercategory");
 		$qSelect = $this->connect_db->query($sql);
 		$cont = 0;
-		while($arreglo=mysqli_fetch_array($qSelect)){
+		while($array=mysqli_fetch_array($qSelect)){
 			echo "<tr class='success'>";
-			echo 	"<td>$arreglo[1]</td>";
-			echo 	"<td>$arreglo[2]</td>";
-			echo 	"<td>$arreglo[3]</td>";
-			echo 	"<td><a href='admin_categories.php?action=update&id=$arreglo[0]'><img src='../images/update.jpg' class='img-rounded' width='25'></td>";
-			echo 	"<td><a href='admin_categories.php?action=delete&id=$arreglo[0]'><img src='../images/delete.png' class='img-rounded' width='25'></td>";
+			echo 	"<td>$array[1]</td>";
+			echo 	"<td>$array[2]</td>";
+			echo 	"<td>$array[3]</td>";
+			echo 	"<td><a href='admin_categories.php?action=update&id=$array[0]&superc=$array[1]&category=$array[2]&state=$array[3]&id_superc=$array[4]'><img src='../images/update.jpg' class='img-rounded' width='25'></td>";
+			echo 	"<td><a href='admin_categories.php?action=delete&id=$array[0]'><img src='../images/delete.png' class='img-rounded' width='25'></td>";
 			echo "</tr>";
 			$cont++;
 		}
