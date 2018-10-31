@@ -49,7 +49,7 @@ class categories
 			echo 	"<td>$array[2]</td>";
 			echo 	"<td>$array[3]</td>";
 			echo 	"<td><a href='admin_categories.php?action=edit&id=$array[0]&superc=$array[1]&category=$array[2]&state=$array[3]&id_superc=$array[4]'><img src='../images/update.jpg' class='img-rounded' width='25'></td>";
-			echo 	"<td><a href='admin_categories.php?action=delete&id=$array[0]'><img src='../images/delete.png' class='img-rounded' width='25'></td>";
+			echo 	"<td><a href='admin_categories.php?action=delete&id=$array[0]&category=$array[2]'><img src='../images/delete.png' class='img-rounded' width='25'></td>";
 			echo "</tr>";
 			$cont++;
 		}
@@ -90,46 +90,21 @@ class categories
 			$this->state = 1;
 		} else { $this->state = 0; }
 		//0=inactivo, 1=activo, 2=Supercategoria
-		$sql="UPDATE categories SET description = '$this->description', id_supercategory = '$this->supercategory', state = '$this->state' WHERE id = '$this->id' ";
+		$sql = "UPDATE categories SET description = '$this->description', id_supercategory = '$this->supercategory', state = '$this->state' WHERE id = '$this->id' ";
+		$execute = mysqli_query($this->connect_db,$sql);
+		if (!$execute) {
+			echo "Error al actualizar categoria: ". $this->connect_db->error . "  " . $sql;
+		}
+	}
+
+	function delete_category($id){
+		$this->connect_db 	= $_SESSION['connect'];
+		$this->id = $id;
+		$sql = "DELETE FROM categories WHERE id = '$this->id' ";
 		$execute = mysqli_query($this->connect_db,$sql);
 		if (!$execute) {
 			echo "Error al actualizar categoria: ". $this->connect_db->error . "  " . $sql;
 		}
 	}
 }
-			/*
-			
-			extract($_GET);
-			if(@$id_boton==1){
-				if(@$rol=='Usuario'){	
-					$sqlUpdateDatos="UPDATE usuarios SET rol = 1 WHERE usuarios.correo = '$id'";
-					$resUpdateDatos=mysqli_query($mysqli,$sqlUpdateDatos);
-				}
-				if(@$rol=='Administrador'){
-					$sqlUpdateDatos="UPDATE usuarios SET rol = 2 WHERE usuarios.correo = '$id'";
-					$resUpdateDatos=mysqli_query($mysqli,$sqlUpdateDatos);
-				}
-				if (!$resUpdateDatos) {
-					printf("Errormessage1: %s\n", $mysqli->error);
-				} else {
-					echo '<script>alert("Se ha editado los administradores")</script> ';
-					echo "<script>location.href='admin.php'</script>";
-				}
-			}
-			if(@$id_boton==2){
-				$sqlborrarDatos="DELETE FROM datos_personales WHERE FK_correo='$id'";
-				$resborrarDatos=mysqli_query($mysqli,$sqlborrarDatos);
-				if (!$resborrarDatos) {
-					echo '<script>alert("No se puede eliminar este registro. Verifique si el usuario tiene tareas")</script> ';
-				}else {
-					$sqlborrarUsuario="DELETE FROM usuarios WHERE correo='$id'";
-					$resborrarUsuario=mysqli_query($mysqli,$sqlborrarUsuario);
-					if (!$resborrarUsuario) {
-						echo '<script>alert("No se puede eliminar este registro. Verifique si el usuario tiene tareas. Error: $mysqli->error")</script> ';
-					} else {
-						echo '<script>alert("Usuario ELIMINADO")</script> ';
-						echo "<script>location.href='admin.php'</script>";
-					}
-				}
-			}*/
 ?>

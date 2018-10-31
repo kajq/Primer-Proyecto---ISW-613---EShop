@@ -13,12 +13,20 @@
 	$superc    = isset($_GET["superc"]) ? $_GET["superc"] : "";
 	$state     = isset($_GET["state"]) ? $_GET["state"] : 1;
 	$id 	   = isset($_GET["id"]) ? $_GET["id"] : "algo";
+	$confirm = 'nada';
 	if ($state == 0) {$check_state = "";} else {$check_state = "checked";}
     if ($action == 'insert') {
     	$oCategoria->insert_category();
     } elseif ($action == 'update') {
     	$oCategoria->update_category($id);
-    }
+    } elseif ($action == 'delete') {
+    	echo '<script>
+    	$confirm = confirm("¿Esta seguro de eliminar la categoria ' . $category . '?")
+    	</script> ';
+    	if ($confirm == true) {
+    		$oCategoria->delete_category($id);
+    	}
+    } echo $confirm;
 ?>
 <!DOCTYPE html>
 <html>
