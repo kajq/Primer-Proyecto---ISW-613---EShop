@@ -12,8 +12,13 @@
 	$id_superc = isset($_GET["id_superc"]) ? $_GET["id_superc"] : "";
 	$superc    = isset($_GET["superc"]) ? $_GET["superc"] : "";
 	$state     = isset($_GET["state"]) ? $_GET["state"] : 1;
+	$id 	   = isset($_GET["id"]) ? $_GET["id"] : "algo";
 	if ($state == 0) {$check_state = "";} else {$check_state = "checked";}
-    if ($action == 'insert') {$oCategoria->insert_category();} 	
+    if ($action == 'insert') {
+    	$oCategoria->insert_category();
+    } elseif ($action == 'update') {
+    	$oCategoria->update_category($id);
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -45,7 +50,8 @@
                     </a>
                 </h3>
 	                <?php 
-                if ($action == 'new' || $action == 'update') {
+                if ($action == 'new' || $action == 'edit') {
+                	$action = 'insert';
                 	include ('include/new_category.php');
                 } ?>		
 			</div>
