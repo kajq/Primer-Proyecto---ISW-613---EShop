@@ -52,7 +52,7 @@ class menu
 					  </div>";
 				echo "<div class='navbar'>
 						<ul class='nav pull-right'>
-							<li><a href='products.php'>Productos</a></li>		 
+							<li><a href='admin_products.php'>Productos</a></li>		 
 						</ul>
 					  </div>";	  	  
 				echo "<div class='navbar'>

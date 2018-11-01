@@ -4,7 +4,7 @@
  */
 require("connect_db.php");
 
-class categories
+class products
 {
 	private $sku;
 	private $description;
@@ -14,7 +14,7 @@ class categories
 	private $id_category;
 	private $connect_db;
 	
-	function categories()
+	function products()
 	{
 		$this->connect_db 	= $_SESSION['connect'];
 	}
@@ -49,12 +49,12 @@ class categories
 			echo "<tr class='success'>";
 			echo 	"<td>$array[0]</td>";
 			echo 	"<td>$array[1]</td>";
-			echo 	"<td>$array[2]</td>";
+			echo 	"<td>₡$array[2]</td>";
 			echo 	"<td>$array[3]</td>";
 			echo 	"<td>$array[4]</td>";
 			echo 	"<td>$array[5]</td>";
-			echo 	"<td><a href='admin_products.php?action=edit&id=$array[0]&description=$array[1]&price=$array[2]&in_stock=$array[3]&image=$array[4]'&id_category=$array[6]><img src='../images/update.jpg' class='img-rounded' width='25'></td>";
-			echo 	"<td><a href='admin_products.php?action=delete&id=$array[0]&category=$array[2]'><img src='../images/delete.png' class='img-rounded' width='25'></td>";
+			echo 	"<td><a href='admin_products.php?action=edit&sku=$array[0]&description=$array[1]&price=$array[2]&in_stock=$array[3]&image_file=$array[4]&category=$array[5]&id_category=$array[6]'><img src='../images/update.jpg' class='img-rounded' width='25'></td>";
+			echo 	"<td><a href='admin_products.php?action=delete&sku=$array[0]&description=$array[1]'><img src='../images/delete.png' class='img-rounded' width='25'></td>";
 			echo "</tr>";
 			$cont++;
 		}
@@ -67,27 +67,27 @@ class categories
 		$this->sku 			= $_POST['sku'];
 		$this->description 	= $_POST['description'];
 		$this->price        = $_POST['price'];
-		$this->in_stock     = $_POST['in_stock'];
+		//$this->in_stock     = $_POST['in_stock'];
 		$this->image_file   = $_POST['image_file'];
-		$this->id_category  = $_POST['id_category']);
+		$this->id_category  = $_POST['id_category'];
 
-		$qInsert = "INSERT INTO products VALUES('$this->sku','$this->description', '$this->price', '$this->in_stock', '$this->image_file', $this->id_category)";
+		$qInsert = "INSERT INTO products VALUES('$this->sku','$this->description', '$this->price', 0, '$this->image_file', $this->id_category)";
 		$execute = mysqli_query($this->connect_db,$qInsert);
 		//validación de error en bd
 		if (!$execute) {
-			echo "Error al insertar producto: ". $this->connect_db->error;
+			echo "Error al insertar producto: ". $this->connect_db->error .   "  " . $qInsert;
 		} 
 	}
 
-	function update_category($id){
+	function update_product($id){
 		$this->sku 			= $_POST['sku'];
 		$this->description 	= $_POST['description'];
 		$this->price        = $_POST['price'];
-		$this->in_stock     = $_POST['in_stock'];
+		//$this->in_stock     = $_POST['in_stock'];
 		$this->image_file   = $_POST['image_file'];
-		$this->id_category  = $_POST['id_category']);
+		$this->id_category  = $_POST['id_category'];
 
-		$sql = "UPDATE products SET description = '$this->description',   price = '$this->price', in_stock = '$this->in_stock',   image_file = '$this->image_file', id_category = '$this->id_category' WHERE sku = '$this->sku' ";
+		$sql = "UPDATE products SET description = '$this->description',   price = '$this->price', image_file = '$this->image_file', id_category = '$this->id_category' WHERE sku = '$this->sku' ";
 		$execute = mysqli_query($this->connect_db,$sql);
 		if (!$execute) {
 			echo "Error al actualizar producto: ". $this->connect_db->error . "  " . $sql;
