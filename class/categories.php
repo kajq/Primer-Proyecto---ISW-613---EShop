@@ -65,20 +65,13 @@ class categories
 		if ($this->state == true) {
 			$this->state = 1;
 		} else { $this->state = 0; }
-		//0=inactivo, 1=activo, 2=Supercategoria
-		//inicia en estado 2 ya que al ser nuevol no tiene subcategorias
+		//0=inactivo, 1=activo
 		$qInsert = "INSERT INTO categories VALUES('','$this->description', '$this->supercategory', '$this->state')";
 		$execute = mysqli_query($this->connect_db,$qInsert);
 		//validación de error en bd
 		if (!$execute) {
 			echo "Error al insertar categoria: ". $this->connect_db->error;
-		} else {
-			if ($this->supercategory > 0) {
-				//update del estado de la categoria a supercategoria
-				$sql="UPDATE categories SET state = 2 WHERE id = '$this->supercategory'";
-				mysqli_query($this->connect_db,$sql);
-			}
-		}
+		} 
 	}
 
 	function update_category($id){
@@ -98,7 +91,6 @@ class categories
 	}
 
 	function delete_category($id){
-		$this->connect_db 	= $_SESSION['connect'];
 		$this->id = $id;
 		$sql = "DELETE FROM categories WHERE id = '$this->id' ";
 		$execute = mysqli_query($this->connect_db,$sql);

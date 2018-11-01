@@ -13,7 +13,7 @@
 	$superc    = isset($_GET["superc"]) ? $_GET["superc"] : "";
 	$state     = isset($_GET["state"]) ? $_GET["state"] : 1;
 	$id 	   = isset($_GET["id"]) ? $_GET["id"] : "algo";
-	$confirm = 'nada';
+	$confirm = True;
 	if ($state == 0) {$check_state = "";} else {$check_state = "checked";}
     if ($action == 'insert') {
     	$oCategoria->insert_category();
@@ -26,7 +26,7 @@
     	if ($confirm == true) {
     		$oCategoria->delete_category($id);
     	}
-    } echo $confirm;
+    } 
 ?>
 <!DOCTYPE html>
 <html>
@@ -60,7 +60,7 @@
 	                <?php 
                 if ($action == 'new' || $action == 'edit') {
                 	$action = 'insert';
-                	include ('include/new_category.php');
+                	include ('include/form_category.php');
                 } ?>		
 			</div>
 			<table border='0' class='table table-hover'>
