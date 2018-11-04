@@ -8,6 +8,7 @@
 	$oProducto = new products();
 	extract($_GET);
 	$action	    = isset($_GET["action"])     ? $_GET["action"] : "";
+	$id  		= isset($_GET["id"])        ? $_GET["id"] : "";
 	$sku  		= isset($_GET["sku"])        ? $_GET["sku"] : "";
 	$description= isset($_GET["description"])? $_GET["description"] : "";
 	$price      = isset($_GET["price"])      ? $_GET["price"] : "";
@@ -17,20 +18,20 @@
 	$id_category= isset($_GET["id_category"])? $_GET["id_category"] :"";
 	$confirm = true;
 	
-	echo $image;
     if ($action == 'insert') {
     	$oProducto->validate_image('');
+    	//$oProducto->generate_sku($id_category);
     	$oProducto->insert_product();
     } elseif ($action == 'update') {
     	$oProducto->validate_image($image);
-    	$oProducto->update_product($sku);
+    	$oProducto->update_product($id);
     } elseif ($action == 'delete') {
     	echo '<script>
     	$confirm = confirm("¿Esta seguro de eliminar el producto ' . 
     	$description . '?")
     	</script> ';
     	if ($confirm == true) {
-    		$oProducto->delete_product($sku);
+    		$oProducto->delete_product($id);
     	}
     } 
 ?>
@@ -65,7 +66,7 @@
                 </h3>
 	                <?php 
                 if ($action == 'new' || $action == 'edit') {
-                	$action = 'insert';
+                	//$action = 'insert';
                 	include ('include/form_product.php');
                 } ?>		
 			</div>

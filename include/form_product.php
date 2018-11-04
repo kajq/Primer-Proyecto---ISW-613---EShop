@@ -3,12 +3,12 @@ extract($_GET);
 if ($action == 'new') {
 	echo "<form  action='../admin_products.php?action=insert' method='post' enctype='multipart/form-data' >";
 }  elseif ($action == 'edit') {
-	echo "<form  action='../admin_products.php?action=update&sku=$sku&image=$image method='post' enctype='multipart/form-data'>";
+	echo "<form  action='../admin_products.php?action=update&sku=$sku&image=$image&id=$id' method='post' enctype='multipart/form-data'>";
 }
         ?>
 	<label style="font-size: 10pt">  
 		<b>SKU</b>	
-		<input style="border-radius:15px;" type="text" name="sku" required value="<?php echo $sku?>">
+		<input style="border-radius:15px;" type="text" name="sku" value="<?php echo $sku?>">
 		<b>Detalle</b>	
 		<input style="border-radius:15px;" type="text" name="description" required value="<?php echo $description?>">
 		<b>Precio</b>	
