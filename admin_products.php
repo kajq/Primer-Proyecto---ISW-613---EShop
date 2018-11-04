@@ -12,14 +12,17 @@
 	$description= isset($_GET["description"])? $_GET["description"] : "";
 	$price      = isset($_GET["price"])      ? $_GET["price"] : "";
 	$in_stock   = isset($_GET["in_stock"])   ? $_GET["in_stock"] : 1;
-	$image_file = isset($_GET["image_file"]) ? $_GET["image_file"] :"";
+	$image 		= isset($_GET["image"]) 	 ? $_GET["image"] :"";
 	$category   = isset($_GET["category"])   ? $_GET["category"] :"";
 	$id_category= isset($_GET["id_category"])? $_GET["id_category"] :"";
 	$confirm = true;
 	
+	echo $image;
     if ($action == 'insert') {
+    	$oProducto->validate_image('');
     	$oProducto->insert_product();
     } elseif ($action == 'update') {
+    	$oProducto->validate_image($image);
     	$oProducto->update_product($sku);
     } elseif ($action == 'delete') {
     	echo '<script>
@@ -68,12 +71,14 @@
 			</div>
 			<table border='0' class='table table-hover'>
 				<tr class='warning'>
+					<td>Imagen</td>
 					<td>SKU</td>
 					<td>Detalle</td>
 					<td>Precio</td>
 					<td>Cantidad</td>
-					<td>Imagen</td>
 					<td>Categoria</td>
+					<td>Editar</td>
+					<td>Borrar</td>
 				</tr>
 			<?php 
 				$oProducto->products_table(); 

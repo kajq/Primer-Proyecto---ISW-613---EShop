@@ -1,9 +1,9 @@
 <?php  
 extract($_GET);
 if ($action == 'new') {
-	echo "<form  action='../admin_products.php?action=insert' method='post'>";
+	echo "<form  action='../admin_products.php?action=insert' method='post' enctype='multipart/form-data' >";
 }  elseif ($action == 'edit') {
-	echo "<form  action='../admin_products.php?action=update&sku=$sku' method='post'>";
+	echo "<form  action='../admin_products.php?action=update&sku=$sku&image=$image method='post' enctype='multipart/form-data'>";
 }
         ?>
 	<label style="font-size: 10pt">  
@@ -14,17 +14,18 @@ if ($action == 'new') {
 		<b>Precio</b>	
 		<input style="border-radius:15px;" type="number" name="price" required value="<?php echo $price?>">
 		<br>
-		<b>Imagen</b>	
-		<input style="border-radius:15px;" type="text" name="image_file" required value="<?php echo $image_file?>">
 		<b>Categoría</b>
 		<select name="id_category" style="border-radius:15px;"> 
 			<option value="<?php echo $id_category?>"><?php echo $category?></option>
 			<option value="">Ninguna</option>
 		<?php 
-         	$oProducto->select_categories();   			
+			include ("class/categories.php");
+			$oCategorias = new categories();
+         	$oCategorias->select();   			
         ?>
         </select>
-        <b style='padding-left: 5em'></b>
+        <b>Imagen</b>	
+		<input id="imagen" name="imagen" size="30" type="file">
         <input type='submit' class='btn btn-danger' value='Guardar' >
         <input type="submit" class="btn btn-danger" value="Cancelar" onclick = "window.location.href='../admin_products.php'">
 	</label>
