@@ -20,7 +20,6 @@
 	
     if ($action == 'insert') {
     	$oProducto->validate_image('');
-    	//$oProducto->generate_sku($id_category);
     	$oProducto->insert_product();
     } elseif ($action == 'update') {
     	$oProducto->validate_image($image);

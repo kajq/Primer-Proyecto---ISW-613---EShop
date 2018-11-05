@@ -8,7 +8,7 @@ if ($action == 'new') {
         ?>
 	<label style="font-size: 10pt">  
 		<b>SKU</b>	
-		<input style="border-radius:15px;" type="text" name="sku" value="<?php echo $sku?>">
+		<input style="border-radius:15px;" type="text" name="sku" placeholder="Automático SKU-CATE-#" value="<?php echo $sku?>">
 		<b>Detalle</b>	
 		<input style="border-radius:15px;" type="text" name="description" required value="<?php echo $description?>">
 		<b>Precio</b>	

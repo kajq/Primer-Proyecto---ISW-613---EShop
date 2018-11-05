@@ -17,20 +17,6 @@ class products
 		$this->connect_db 	= $_SESSION['connect'];
 	}
 
-	function generate_sku($id_category)	{
-		/*$sql=("SELECT description FROM categories WHERE id = '$id_category'");
-		$execute=mysqli_query($this->connect_db, $sql);
-		if ($category = mysqli_fetch_assoc($execute) ) {
-			$str_Category = $category['description'];
-			$str_Category = substr($str_Category, 0, 3);
-		} else{
-			$str_Category = 'Cate';
-		}
-		$category = substr($category, 0, 3);
-		$this->sku = 'SKU-'.$str_Category.'-'.($this->nums + 1);*/
-	}
-
-
 	function products_table(){
 		$sql=("SELECT prod.sku, prod.description, prod.price, prod.in_stock, prod.image_file, cat.description, prod.id_category, prod.id
 			FROM products prod
@@ -93,6 +79,28 @@ class products
 			   if($nombre_img == !NULL) echo "La imagen es demasiado grande "; 
 			}
 		}
+	}
+
+	function generate_sku($id_category, $id)	{
+		$sql=("SELECT description FROM categories WHERE id = '$id_category'");
+		$execute=mysqli_query($this->connect_db, $sql);
+		if ($category = mysqli_fetch_assoc($execute) ) {
+			$str_Category = $category['description'];
+			
+			if ($id > 0) {
+				$this->nums = $id;
+			} else	{
+				$execute=mysqli_query($this->connect_db,"select max(id) as id from products");
+				if ($products = mysqli_fetch_assoc($execute)) {
+					$this->nums	= $products['id'] + 1;
+				}
+			}
+		} else{
+			$str_Category = 'Cate';
+		}
+		$str_Category = substr($str_Category, 0, 4);
+		//$nums = $this->nums + 1;		 
+		$this->sku = 'SKU-' . strtoupper($str_Category) . '-' . $this->nums;
 	} 
 
 	function insert_product(){
@@ -100,7 +108,9 @@ class products
 		$this->description 	= $_POST['description'];
 		$this->price        = $_POST['price'];
 		$this->id_category  = $_POST['id_category'];
-
+		if ($this->sku == '') {
+			$this->generate_sku($this->id_category, '');
+		}
 		$qInsert = "INSERT INTO products VALUES('', '$this->sku', '$this->description', '$this->price', 0, '$this->image_file', $this->id_category)";
 		$execute = mysqli_query($this->connect_db,$qInsert);
 		//validación de error en bd
@@ -115,6 +125,9 @@ class products
 		$this->description 	= $_POST['description'];
 		$this->price        = $_POST['price'];
 		$this->id_category  = $_POST['id_category'];
+		if ($this->sku == '') {
+			$this->generate_sku($this->id_category, $this->id);
+		}
 
 		$sql = "UPDATE products SET sku = '$this->sku', description = '$this->description',   price = '$this->price', image_file = '$this->image_file', id_category = '$this->id_category' WHERE id = '$this->id' ";
 		$execute = mysqli_query($this->connect_db,$sql);
