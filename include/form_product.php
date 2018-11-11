@@ -1,4 +1,4 @@
-<?php  
+	<?php  
 extract($_GET);
 if ($action == 'new') {
 	echo "<form  action='../admin_products.php?action=insert' method='post' enctype='multipart/form-data' >";
@@ -20,8 +20,12 @@ if ($action == 'new') {
 			<option value="">Ninguna</option>
 		<?php 
 			include ("class/categories.php");
-			$oCategorias = new categories();
-         	$oCategorias->select();   			
+			$oCategoria = new categories();
+         	$category = $oCategoria->Select();   			
+         	for ($i=0; $i < (count($category)/2); $i++) { 
+         		echo '<option value=' . $category["id=".$i] . '> ' .
+             	$category["description=".$i] . '</option>';
+         	}   			
         ?>
         </select>
         <b>Imagen</b>	

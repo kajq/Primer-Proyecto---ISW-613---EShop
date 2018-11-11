@@ -20,19 +20,21 @@ class categories
 	function select()
 	{
 		//Consulta de categorias simples
-		$sql=("SELECT * FROM categories WHERE state <> 0");
+		$sql=("SELECT * FROM categories 
+			WHERE state <> 0 ORDER BY id_supercategory ASC ");
 		$cont = 0;
+		$category = array(); 
 		$qSelect = $this->connect_db->query($sql);
 		if ($qSelect <> 'Error') {
 			while($categoria = $qSelect->fetch_object()){
-            echo '<option value=' . $categoria->id . '> ' .
-             $categoria->description . '</option>';
-            $cont++; 
+            /*echo '<option value=' . $categoria->id . '> ' .
+             $categoria->description . '</option>';*/
+            $category['id='.$cont] = $categoria->id;
+            $category['description='.$cont] = $categoria->description;
+            $cont++;
           }
 		} 
-		if ($cont == 0){
-			echo '<option value="">No hay categorias disponibles</option>';
-		} 
+		return $category;
 	}
 
 
@@ -40,7 +42,8 @@ class categories
 		$sql=("SELECT cat.id, sup.description, cat.description, cat.state, sup.id 
 			FROM categories cat
 			 LEFT JOIN categories sup
-			 ON sup.id = cat.id_supercategory");
+			 ON sup.id = cat.id_supercategory
+			 ORDER BY sup.id ASC");
 		$qSelect = $this->connect_db->query($sql);
 		$cont = 0;
 		while($array=mysqli_fetch_array($qSelect)){

@@ -55,10 +55,10 @@ class products
 		if (!$execute) { //si hay algun error imprime
 			echo "Error al actualizar producto" . $this->connect_db->error . " " . $sql;
 			echo '<script>alert("Error al actualizar producto" . $this->connect_db->error . " " . $sql)</script> ';
-			echo "<script>location.href='../admin_products.php'</script>";	
+			//echo "<script>location.href='../admin_products.php'</script>";	
 		} else{
-			echo "si";
-			echo "<script>location.href='../admin_products.php'</script>";	
+			echo '<script>alert("Producto actualizado" . " " . $sql)</script> ';
+			//echo "<script>location.href='../admin_products.php'</script>";	
 		}
 	}
 
