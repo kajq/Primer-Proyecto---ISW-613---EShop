@@ -7,7 +7,7 @@
 	include ('class/categories.php');
 	$oCategoria = new categories();
 	extract($_GET);
-	$action	   = isset($_GET["action"]) ? $_GET["action"] : "";
+	$action	   = isset($_GET["action"]) ? $_GET["action"] : "default";
 	$category  = isset($_GET["category"]) ? $_GET["category"] : "";
 	$id_superc = isset($_GET["id_superc"]) ? $_GET["id_superc"] : "";
 	$superc    = isset($_GET["superc"]) ? $_GET["superc"] : "";
@@ -26,7 +26,7 @@
     	if ($confirm == true) {
     		$oCategoria->delete_category($id);
     	}
-    } 
+    }
 ?>
 <!DOCTYPE html>
 <html>

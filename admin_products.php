@@ -32,6 +32,8 @@
     	if ($confirm == true) {
     		$oProducto->delete_product($id);
     	}
+    } elseif ($action == 'plus') {
+    		$oProducto->plus_product($id, $in_stock);
     } 
 ?>
 <!DOCTYPE html>

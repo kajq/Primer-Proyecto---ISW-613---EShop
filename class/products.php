@@ -33,7 +33,8 @@ class products
 			echo 	"<td>$array[0]</td>";
 			echo 	"<td>$array[1]</td>";
 			echo 	"<td>₡$array[2]</td>";
-			echo 	"<td>$array[3]</td>";
+			//se agrega un boton que llamara un metodo para comprar productos
+			echo 	"<td>$array[3] <a href='admin_products.php?action=plus&id=$array[7]&in_stock=$array[3]'><img src='../images/new.png' width='15'></td>";
 			echo 	"<td>$array[5]</td>";
 			//Boton de editar
 			echo 	"<td><a href='admin_products.php?action=edit&sku=$array[0]&description=$array[1]&price=$array[2]&image=$array[4]&category=$array[5]&id_category=$array[6]&id=$array[7]'><img src='../images/update.jpg' class='img-rounded' width='25'></td>";
@@ -44,6 +45,20 @@ class products
 		}
 		if ($this->nums == 0) {//si no hay productos imprime el mensaje
 			echo "<tr><td colspan='8'>No hay productos registrados</td></tr>";
+		}
+	}
+
+	function plus_product($id, $in_stock){
+		$nums = $in_stock + 1;
+		$sql = "UPDATE products SET in_stock = '$nums' WHERE id = '$id' ";
+		$execute = mysqli_query($this->connect_db,$sql);
+		if (!$execute) { //si hay algun error imprime
+			echo "Error al actualizar producto" . $this->connect_db->error . " " . $sql;
+			echo '<script>alert("Error al actualizar producto" . $this->connect_db->error . " " . $sql)</script> ';
+			echo "<script>location.href='../admin_products.php'</script>";	
+		} else{
+			echo "si";
+			echo "<script>location.href='../admin_products.php'</script>";	
 		}
 	}
 
