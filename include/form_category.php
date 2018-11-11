@@ -14,7 +14,7 @@ if ($action == 'new') {
 			<option value="<?php echo $id_superc?>"><?php echo $superc?></option>
 			<option value="">Ninguna</option>
 		<?php 
-         	$category = $oCategoria->Select();   			
+         	$category = $oCategoria->Select('');   			
          	for ($i=0; $i < (count($category)/2); $i++) { 
          		echo '<option value=' . $category["id=".$i] . '> ' .
              	$category["description=".$i] . '</option>';

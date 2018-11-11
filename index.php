@@ -24,70 +24,9 @@
 				<?php include ('include/menu.php'); ?>
 			</div>
 			<br><br>
-			<h3>Te ofrecemos las las siguientes categorias de productos</h3>
-			<div class="row" style="text-align:center">
-				<div class="span2">
-					<div class="well well-small">
-						<h4>Categoria1</h4>
-						<a href="al.php"><small>Ver detalles</small></a>
-					</div>
-				</div>
-				
-				<div class="span2">
-					<div class="well well-small">
-						<h4>Categoria2</h4>
-						<a href="te.php"><small>Ver detalles</small></a>
-					</div>
-				</div>
-				<div class="span2">
-					<div class="well well-small">
-						<h4>Categoria 3</h4>
-						<a href="fi.php"><small>Ver detalles</small></a>
-					</div>
-				</div>			
+			<div>
+				<?php include ('include/products.php'); ?>
 			</div>
-
-			<h3>Nuestros productos más vendidos</h3>
-			<div class="row">
-
-				<div class="span4">
-					<div class="thumbnail">
-					<h3 style="text-align:center">Producto 1</h3>	
-					<img src="images/algebra.jpg" alt="#"/>
-						<div class="caption">
-							<h5>Descripción del Curso</h5>	
-							<a class="pull-right" href="al.php">Ver detalles</a>
-							<br/>
-						</div>
-					</div>
-				</div>
-
-				<div class="span4">
-					<div class="thumbnail">
-					<h3 style="text-align:center">Producto 1</h3>	
-					<img src="images/algebra.jpg" alt="#"/>
-						<div class="caption">
-							<h5>Descripción del Curso</h5>	
-							<a class="pull-right" href="al.php">Ver detalles</a>
-							<br/>
-						</div>
-					</div>
-				</div>
-
-				<div class="span4">
-					<div class="thumbnail">
-					<h3 style="text-align:center">Producto 1</h3>	
-					<img src="images/algebra.jpg" alt="#"/>
-						<div class="caption">
-							<h5>Descripción del Curso</h5>	
-							<a class="pull-right" href="al.php">Ver detalles</a>
-							<br/>
-						</div>
-					</div>
-				</div>
-
-			</div>
-			<hr/>
 			<footer>
 				<p>&copy; Copyright Keilor Jiménez</p>
 				<hr class="soften"/>

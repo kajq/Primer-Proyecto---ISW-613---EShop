@@ -19,12 +19,31 @@ class products
 		$this->connect_db 	= $_SESSION['connect'];
 	}
 
+	function select($category) {
+		//Consulta de categorias simples
+		$sql=("SELECT * FROM products 
+			WHERE id_category = $category ORDER BY id ASC");
+		$cont = 0;
+		$products = array(); 
+		$qSelect = $this->connect_db->query($sql);
+		if ($qSelect <> 'Error') {
+			while($product = $qSelect->fetch_object()){
+            $products['sku='.$cont] = $product->sku;
+            $products['description='.$cont] = $product->description;
+            $products['img='.$cont] = $product->image_file;
+            $cont++;
+          }
+		} 
+		return $products;
+	}
+
 	//función que consulta los productos y los imprime en una tabla
 	function products_table(){
 		$sql=("SELECT prod.sku, prod.description, prod.price, prod.in_stock, prod.image_file, cat.description, prod.id_category, prod.id
 			FROM products prod
 			 LEFT JOIN categories cat
-			 ON prod.id_category = cat.id");
+			 ON prod.id_category = cat.id
+			 ORDER BY cat.id ASC");
 		$qSelect = $this->connect_db->query($sql);
 		$this->nums = 0;
 		while($array=mysqli_fetch_array($qSelect)){

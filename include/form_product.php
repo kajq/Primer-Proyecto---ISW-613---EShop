@@ -21,7 +21,7 @@ if ($action == 'new') {
 		<?php 
 			include ("class/categories.php");
 			$oCategoria = new categories();
-         	$category = $oCategoria->Select();   			
+         	$category = $oCategoria->Select('');   			
          	for ($i=0; $i < (count($category)/2); $i++) { 
          		echo '<option value=' . $category["id=".$i] . '> ' .
              	$category["description=".$i] . '</option>';

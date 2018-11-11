@@ -17,18 +17,20 @@ class categories
 		$this->connect_db 	= $_SESSION['connect'];
 	}
 
-	function select()
-	{
+	function select($supercategory)
+	{	
+		//si se ingresa una supercategoria realiza discriminación de quien la tenga
+		if ($supercategory <> '') {
+			$where = " WHERE state <> 0 and id_supercategory = $supercategory ";
+		} else { $where = "WHERE state <> 0 "; }
 		//Consulta de categorias simples
 		$sql=("SELECT * FROM categories 
-			WHERE state <> 0 ORDER BY id_supercategory ASC ");
+			$where ORDER BY id_supercategory ASC ");
 		$cont = 0;
 		$category = array(); 
 		$qSelect = $this->connect_db->query($sql);
 		if ($qSelect <> 'Error') {
 			while($categoria = $qSelect->fetch_object()){
-            /*echo '<option value=' . $categoria->id . '> ' .
-             $categoria->description . '</option>';*/
             $category['id='.$cont] = $categoria->id;
             $category['description='.$cont] = $categoria->description;
             $cont++;
