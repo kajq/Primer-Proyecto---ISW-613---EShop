@@ -1,6 +1,9 @@
 <?php 
 	session_start();
 	require("class/connect_db.php");
+	extract($_GET);
+	$id 	   = isset($_GET["id"]) ? $_GET["id"] : "";
+	$type 	   = isset($_GET["type"]) ? $_GET["type"] : "";
 ?>
 <!DOCTYPE html>
 <html>
@@ -23,9 +26,11 @@
 			<div>
 				<?php include ('include/menu.php'); ?>
 			</div>
-			<br><br>
+			<br>
 			<div>
-				<?php include ('include/products.php'); ?>
+				<?php 
+				include ('include/products.php'); 
+				?>
 			</div>
 			<footer>
 				<p>&copy; Copyright Keilor Jiménez</p>

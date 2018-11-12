@@ -19,21 +19,28 @@ class products
 		$this->connect_db 	= $_SESSION['connect'];
 	}
 
-	function select($category) {
-		//Consulta de categorias simples
-		$sql=("SELECT * FROM products 
-			WHERE id_category = $category ORDER BY id ASC");
+	function select($category, $id) {
+
+		$where = "WHERE id_category = " . $category;
+		if ($id <> '') {//si recibe el parametro id cambia el where
+			$where = "WHERE sku = '$id' ";
+		}
+		//Consulta de producto por categoria o por id
+		$sql=("SELECT * FROM products " . $where . " ORDER BY id ASC");
 		$cont = 0;
 		$products = array(); 
 		$qSelect = $this->connect_db->query($sql);
 		if ($qSelect <> 'Error') {
 			while($product = $qSelect->fetch_object()){
+			$products['id='.$cont] = $product->id;
             $products['sku='.$cont] = $product->sku;
             $products['description='.$cont] = $product->description;
+            $products['price='.$cont] = $product->price;
+            $products['in_stock='.$cont] = $product->in_stock;
             $products['img='.$cont] = $product->image_file;
             $cont++;
+          	} 
           }
-		} 
 		return $products;
 	}
 
