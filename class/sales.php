@@ -1,14 +1,4 @@
-<?php 
-session_start();
-require("connect_db.php");
-if (@!$_SESSION['username']) {
-		echo '<script>alert("Debes registrarte para poder comprar")</script> ';
-		echo "<script>location.href='../index.php'</script>";	
-	}
-
-
-$oSale = new sales();
-$oSale->check_cart();
+<?php 		
 /**
  * 
  */
@@ -23,8 +13,45 @@ class sales
 	//contructor
 	function sales()
 	{
+		require("connect_db.php");
 		$this->connect_db 	= $_SESSION['connect'];
 		$this->user 		= $_SESSION['username'];
+	}
+
+	//Función que retorna los productos de la venta
+	function products_cart($id_sale){
+		$sql = "SELECT sp.*, p.in_stock FROM sold_products sp
+		LEFT JOIN products p
+		ON sp.sku_product = p.sku
+		WHERE id_sale = '$id_sale'";
+		$cont = 0;
+		$products = array(); 
+		$qSelect = $this->connect_db->query($sql);
+		if ($qSelect <> 'Error') {
+			while($product = $qSelect->fetch_object()){
+			$products['id='.$cont] = $product->id;
+            $products['sku='.$cont] = $product->sku_product;
+            $products['description='.$cont] = $product->description;
+            $products['price='.$cont] = $product->price;
+            $products['sum='.$cont] = $product->sum;
+            $products['in_stock='.$cont] = $product->in_stock;
+            $cont++;
+          	} 
+          }
+        return $products;  
+	}
+
+	//Función que retorna la información de la cabecera del carrito
+	function customer(){
+		$sql = "SELECT *, curdate() date FROM person WHERE user = '$this->user'";
+		$customer = array();
+		$qSelect = mysqli_query($this->connect_db, $sql);
+		if ($qSelect <> 'Error') { //valida error
+			if($qSale = mysqli_fetch_assoc($qSelect)){
+				$customer = $qSale;
+			}
+		}
+		return $customer; 
 	}
 
 	//funcion para agregar carrito de compras
@@ -59,30 +86,37 @@ class sales
 		VALUES (NULL, '$id_sale', '$this->sku', '$this->description', '$this->price', 1)"; 
 		$execute = mysqli_query($this->connect_db,$sql);
 		if (!$execute) {//validación de error
-			echo "Error al insertar producto: ". $this->connect_db->error .   "  " . $sql;
+			echo "Error al insertar producto: ". $this->connect_db->error . " " . $sql;
 		} else {
-			echo "Producto " . $this->description . " agregada al carrito"; 
+			echo '<script>alert("Producto agregado a la lista de deseos")</script> ';
+			echo "<script>location.href='../shopping_car.php'</script>";
 		}
+	}
+
+	function cart(){
+		$sql = "SELECT * FROM sales WHERE user = '$this->user' AND state = 0";
+		$qSelect = mysqli_query($this->connect_db, $sql);
+		$cart = null;
+		if ($qSelect <> 'Error') { //valida error
+			$cart = mysqli_fetch_assoc($qSelect);
+		}	
+		return $cart;
 	}
 
 	function check_cart(){
 		//se consulta si hay compras de este usuario en espera (carrito)
-		$sql = "SELECT * FROM sales WHERE user = '$this->user' AND state = 0";
-		$qSelect = mysqli_query($this->connect_db, $sql);
-		if ($qSelect <> 'Error') { //valida error
-			if($qSale = mysqli_fetch_assoc($qSelect)){
-				//en caso de que ya exista el carrito se actualiza la fecha
-				$this->update_cart($qSale['id_sale']);
-				} else {
-				//Si no existe inserta un carrito de compras nuevo para el usuario
-				$this->add_cart();
-				echo "venta agregada";
-				$qSelect = mysqli_query($this->connect_db, $sql);
-				$qSale = mysqli_fetch_assoc($qSelect);	
-				}
-		} 
+		$cart = $this->cart();
+		if ($cart <> null) { //si existe
+			//actualiza la fecha
+			$this->update_cart($cart['id_sale']);
+		} else {
+			//Si no existe inserta un carrito de compras nuevo para el usuario
+			$this->add_cart();
+			//luego vuelve a consultar para obtener los datos
+			$cart = $this->cart();	
+		}
 		//se agrega producto
-		$this->add_product($qSale['id_sale']);	
+		$this->add_product($cart['id_sale']);		
 	}
 
 }

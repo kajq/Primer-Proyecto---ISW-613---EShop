@@ -11,7 +11,7 @@ $details = $oProduct->Select('',$id);
 	<div class='span6'>
 		<div class='thumbnail'>
 			<table border="0" align="center" valign="middle">
-				<form action="../class/sales.php" method="post">
+				<form action="/shopping_car.php?action=new" method="post">
 				<tr>
 					<td colspan="2"> 
 						<label style="font-size: 14pt">Detalles del Producto</label>

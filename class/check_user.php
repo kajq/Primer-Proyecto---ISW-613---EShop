@@ -31,6 +31,7 @@ class check_user{
 		$_SESSION['name']	  =	$user['name'];
 		$_SESSION['last_name']= $user['last_name'];
 		$_SESSION['email']	  = $user['email'];
+		$_SESSION['phone']	  = $user['phone'];
 		
 		if($_SESSION['rol']=='1'){
 			echo '<script>alert("Bienvenido administrador")</script> ';
