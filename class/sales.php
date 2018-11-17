@@ -21,7 +21,8 @@ class sales
 
 	//Función que retorna los productos de la venta
 	function products_cart($id_sale){
-		$sql = "SELECT sp.*, p.in_stock FROM sold_products sp
+		$sql = "SELECT sp.*, p.in_stock, (sp.price * sp.sum) total 
+		FROM sold_products sp
 		LEFT JOIN products p
 		ON sp.sku_product = p.sku
 		WHERE id_sale = '$id_sale'";
@@ -36,6 +37,7 @@ class sales
             $products['price='.$cont] = $product->price;
             $products['sum='.$cont] = $product->sum;
             $products['in_stock='.$cont] = $product->in_stock;
+            $products['total='.$cont] = $product->total;
             $cont++;
           	} 
           }

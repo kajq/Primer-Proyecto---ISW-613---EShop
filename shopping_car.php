@@ -74,8 +74,10 @@ $products = $oSale->products_cart($cart['id_sale']);
 					<td>Total</td>
 					<td>Eliminar</td>
 				</tr>
-				<?php $cont = 0;
-				for ($i=0; $i < count($products)/6; $i++) { ?>
+				<?php 
+				$cont = 0;
+				$total = 0;
+				for ($i=0; $i < count($products)/7; $i++) { ?>
 				<tr>
 					<td><?php echo "<a href='shopping_car.php?action=details&id=" . $products['sku='.$cont] . "' >" . $products['sku='.$cont] . "</a> <br/>"; ?></td>
 					<td><?php echo $products['description='.$cont]; ?></td>
@@ -87,15 +89,21 @@ $products = $oSale->products_cart($cart['id_sale']);
 					} ?>
 					<img src="..\images\minus.png" width="20" title="Menos de este producto"> </td>
 					<td><?php echo "₡".$products['price='.$cont]; ?></td>
-					<td><?php echo "₡".$products['price='.$cont]*$products['sum='.$cont]; ?></td>
+					<td><?php echo "₡".$products['total='.$cont]; ?></td>
 				</tr>
 				<?php 
+					$total = $total + $products['total='.$cont];
 					$cont++;
 				}
 				if ($cont == 0) {
 					echo "<tr><td colspan='6'><label>No hay productos en lista de deseos</label></td></tr>";
 				}
 				 ?>
+				 <tr>	
+				 	<td colspan="3"></td>
+				 	<td><h4>Total</h4></td>
+				 	<td><h4><?php echo "₡".$total ?></h4></td>
+				 </tr>
 			</table>
 			<hr/>
 			<footer>
