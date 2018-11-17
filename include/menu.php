@@ -39,6 +39,11 @@ class menu
 						<li><a href='profile.php'>Perfil Usuario</a></li>		 
 					</ul>
 				  </div>";
+		  echo "<div class='navbar'>
+					<ul class='nav pull-right'>
+						<li><a href='shopping_history.php'>Historial</a></li>		 
+					</ul>
+		  		</div>";
 			echo "<div class='navbar'>
 					<ul class='nav pull-right'>
 					 	<li><a href='shopping_car.php'>Lista de deseos</a></li>		 
@@ -59,13 +64,13 @@ class menu
 						<ul class='nav pull-right'>
 							<li><a href='admin_categories.php'>Categorias</a></li>		 
 						</ul>
-					  </div>";
-				echo "<div class='navbar'>
+					  </div>";	  	  
+			}	  
+			echo "<div class='navbar'>
 						<ul class='nav pull-right'>
 							<li><a href='Index.php'>Inicio</a></li>		 
 						</ul>
-					  </div>";	  	  
-			}	  
+					  </div>";
 		}
 	}
 }

@@ -1,7 +1,7 @@
 <?php	
 session_start();
 include ("class\sales.php");
-include ("class/products.php");
+include ("class\products.php");
 if (@!$_SESSION['username']) {
 		echo '<script>alert("Debes registrarte para poder comprar")</script> ';
 		echo "<script>location.href='../index.php'</script>";	
