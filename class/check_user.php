@@ -43,7 +43,7 @@ class check_user{
 	if($_SESSION['rol'] > 0){
 		echo '<script>alert("Bienvenido administrador")</script> ';
 		}
-		echo "<script>location.href='../index.php'</script>";
+		echo "<script>location.href='../shopping_history.php'</script>";
 	}
 }	
 ?>

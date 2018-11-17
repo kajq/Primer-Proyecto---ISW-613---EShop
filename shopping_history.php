@@ -5,8 +5,10 @@ if (@!$_SESSION['username']) {
 		echo '<script>alert("Debes registrarte para poder acceder aqui")</script> ';
 		echo "<script>location.href='../index.php'</script>";	
 	}
+$user = $_SESSION['username'];
+$rol  = $_SESSION['rol'];
 $oPurchase = new purchases();
-$purchases = $oPurchase->select_purchases();
+$purchases = $oPurchase->select_purchases($user);
  ?>
 <html>
 <head>
@@ -29,23 +31,25 @@ $purchases = $oPurchase->select_purchases();
 			<div>
 				<?php include ('include/menu.php'); ?>
 			</div>
-			<div class = "nav-collapse">
-				<h3>Estadisticas del Administrativas</h3>
-				<table>
-					<tr>
-						<td>Usuarios Registrados</td>
-						<td><input type="number" readonly value="<?php echo $oPurchase->total_users();	 ?>"></td>
-					</tr>
-					<tr>
-						<td>Productos Vendidos</td>
-						<td><input type="number" readonly value="<?php echo $oPurchase->total_products();	 ?>"></td>
-					</tr>
-					<tr>
-						<td>Total de Ventas</td>
-						<td><input type="text" readonly value="<?php echo '₡'.$oPurchase->total_sales();	 ?>"></td>
-					</tr>
-				</table>
-			</div>
+			<?php if ($rol > 0) { ?>
+				<div class = "nav-collapse">
+					<h3>Estadisticas del Administrativas</h3>
+					<table>
+						<tr>
+							<td>Usuarios Registrados</td>
+							<td><input type="number" readonly value="<?php echo $oPurchase->total_users();	 ?>"></td>
+						</tr>
+						<tr>
+							<td>Productos Vendidos</td>
+							<td><input type="number" readonly value="<?php echo $oPurchase->total_products('admin');	 ?>"></td>
+						</tr>
+						<tr>
+							<td>Total de Ventas</td>
+							<td><input type="text" readonly value="<?php echo '₡'.$oPurchase->total_sales('admin');	 ?>"></td>
+						</tr>
+					</table>
+				</div>
+			<?php 	} ?>
 			<div class = "nav-collapse">
 				<h3>Historial de compras del usuario</h3>
 			</div>
@@ -54,6 +58,7 @@ $purchases = $oPurchase->select_purchases();
 					<td>#Factura</td>
 					<td>Fecha</td>
 					<td>Cliente</td>
+					<td>Cantidad <br>Productos</td>
 					<td>Total</td>
 					<td>Detalles</td>
 				</tr>
@@ -61,17 +66,24 @@ $purchases = $oPurchase->select_purchases();
 				if (count($purchases) == 0) {
 					echo "<td>No hay compras registras por el usuario</td>";
 				}{
-				for ($i=0; $i < count($purchases)/5; $i++) { ?>
+				for ($i=0; $i < count($purchases)/6; $i++) { ?>
 				<tr>
 					<td><?php echo $purchases['id='.$i] ?></td>
 					<td><?php echo $purchases['date='.$i] ?></td>
 					<td><?php echo $purchases['name='.$i]. " " . $purchases['last_name='.$i] ?></td>
+					<td><?php echo $purchases['sum='.$i] ?></td>
 					<td><?php echo '₡'.$purchases['total='.$i] ?></td>
 					<td><a <?php echo "href='../purchase_details.php?id_sale=" . $purchases['id='.$i] . "'" ?> >
                         <img src="..\images\search.png" width="30" title="Eliminar"> 
                     	</a></td>
 				</tr>
 				<?php }} ?>
+				<tr>
+					<td colspan="2"></td>
+					<td><h4>Total</h4></td>
+					<td><h4><?php echo $oPurchase->total_products($user);?></h4></td>
+					<td><h4><?php echo $oPurchase->total_sales($user);	 ?></h4></td>
+				</tr>
 			</table>
 			<hr/>
 			<footer>
