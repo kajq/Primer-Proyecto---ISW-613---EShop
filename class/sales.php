@@ -59,7 +59,7 @@ class sales
 
 	function check_cart(){
 		//se consulta si hay compras de este usuario en espera (carrito)
-		$cart = $this->cart();
+		$cart = $this->cart('');
 		if ($cart <> null) { 
 			//si existe actualiza la fecha
 			$this->update_cart($cart['id_sale'],0);
@@ -67,7 +67,7 @@ class sales
 			//Si no existe inserta un carrito de compras nuevo para el usuario
 			$this->add_cart();
 			//luego vuelve a consultar para obtener los datos
-			$cart = $this->cart();	
+			$cart = $this->cart('');	
 		}
 		//se obtienen los valores del producto por post
 		$this->sku 			= $_POST['sku'];
@@ -159,8 +159,12 @@ class sales
 		}
 	}
 
-	function cart(){
-		$sql = "SELECT * FROM sales WHERE user = '$this->user' AND state = 0";
+	function cart($id_sale){
+		$where = "state = 0";
+		if ($id_sale <> '') {
+			$where = "id_sale = '$id_sale'";
+		}
+		$sql = "SELECT * FROM sales WHERE user = '$this->user' AND " . $where;
 		$qSelect = mysqli_query($this->connect_db, $sql);
 		$cart = null;
 		if ($qSelect <> 'Error') { //valida error

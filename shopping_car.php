@@ -10,7 +10,7 @@ extract($_GET);
 $oSale = new sales();
 $oProduct = new products();
 $customer = $oSale->customer();
-$cart 	  = $oSale->cart();
+$cart 	  = $oSale->cart('');
 $products = $oSale->products_cart($cart['id_sale']);
 $action	    = isset($_GET["action"])     ? $_GET["action"] : "";
 $sku	    = isset($_GET["sku"])     ? $_GET["sku"] : "";
@@ -105,7 +105,7 @@ if ($action == 'new') {
 						echo "<a href='../shopping_car.php?action=add&sku=".$products['sku='.$cont]."&sum=".$products['sum='.$cont]."'> <img src='..\images\\new.png' width='20' title='Agregar'> </a>";
 					}
 					if ($products['sum='.$cont] > 1) {
-					 	echo "<a href='../shopping_car.php?action=less&sku=".        $products['sku='.$cont]."&sum=".$products['sum='.$cont]."'> <img src='..\images\minus.png' width='20' title='Disminuir'>";
+					 	echo "<a href='../shopping_car.php?action=less&sku=".        $products['sku='.$cont]."&sum=".$products['sum='.$cont]."'> <img src='..\images\minus.png' width='20' title='Disminuir'> </a>";
 					 }
 					 if ($products['sum='.$cont] > $products['in_stock='.$cont]) {
 					 	if ($products['in_stock='.$cont] == 0) {
@@ -117,7 +117,6 @@ if ($action == 'new') {
 					   }  
 					 ?>
                          
-                    </a>
 					</td>
 					<td><?php echo "₡".$products['price='.$cont]; ?></td>
 					<td><?php echo "₡".$products['total='.$cont]; ?></td>

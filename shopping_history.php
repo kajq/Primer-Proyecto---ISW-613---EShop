@@ -51,7 +51,9 @@ $purchases = $oPurchase->select_purchases();
 					<td><?php echo $purchases['date='.$i] ?></td>
 					<td><?php echo $purchases['name='.$i]. " " . $purchases['last_name='.$i] ?></td>
 					<td><?php echo '₡'.$purchases['total='.$i] ?></td>
-					<td>Detalles</td>
+					<td><a <?php echo "href='../purchase_details.php?id_sale=" . $purchases['id='.$i] . "'" ?> >
+                        <img src="..\images\search.png" width="30" title="Eliminar"> 
+                    	</a></td>
 				</tr>
 				<?php }} ?>
 			</table>
