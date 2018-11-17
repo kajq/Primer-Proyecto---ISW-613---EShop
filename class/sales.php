@@ -10,6 +10,7 @@ class sales
 	private $sku;
 	private $description;
 	private $price;
+	private $in_stock;
 	//contructor
 	function sales()
 	{
@@ -54,6 +55,42 @@ class sales
 		return $customer; 
 	}
 
+	function check_cart(){
+		//se consulta si hay compras de este usuario en espera (carrito)
+		$cart = $this->cart();
+		if ($cart <> null) { 
+			//si existe actualiza la fecha
+			$this->update_cart($cart['id_sale']);
+		} else {
+			//Si no existe inserta un carrito de compras nuevo para el usuario
+			$this->add_cart();
+			//luego vuelve a consultar para obtener los datos
+			$cart = $this->cart();	
+		}
+		//se obtienen los valores del producto por post
+		$this->sku 			= $_POST['sku'];
+		$this->description	= $_POST['description'];
+		$this->price 		= $_POST['price'];
+		$this->in_stock 	= $_POST['in_stock'];
+		$product = $this->product_exist($cart['id_sale'], $this->sku);
+		//validación por si no hay del producto en el carrito
+		$sum  = isset($product['sum']) ? $product['sum'] : 0;
+		//verifica que hayan productos en bodega
+		if ($this->in_stock > 0 && $sum < $this->in_stock) {
+			if ($product <> null) {
+				//si ya hay un producto se suma 1 a la cantidad 
+				$new_sum = $product['sum'] + 1;
+				$this->plus_product($cart['id_sale'], $this->sku, $new_sum);
+			} else {
+				//si no existe se agrega el producto
+				$this->add_product($cart['id_sale']);	
+			}
+		} else	{
+			echo '<script>alert("Lo sentimos, no quedan '.$this->description.' en bodega")</script> ';
+			echo "<script>location.href='../index.php'</script>";	
+		}
+	}
+
 	//funcion para agregar carrito de compras
 	function add_cart(){
 		$sql = "INSERT INTO `sales` (`id_sale`, `user`, `sale_date`, `state`) VALUES (NULL, '$this->user', now(), '0')";
@@ -70,14 +107,13 @@ class sales
 		$execute = mysqli_query($this->connect_db, $sql);
 		if (!$execute) {//valida error de insert
 			echo "Error al actualizar fecha: ". $this->connect_db->error . " " . $sql;
-		} else {
-			echo "Fecha carrito actualizada";
 		}
 	}
 
 	//Consulta si el producto ya esta agregado al carrito
 	function product_exist($id_sale, $sku){
-		$sql = "SELECT * FROM sold_products WHERE sku_product = '$sku' AND id_sale = '$id_sale'";
+		$sql = "SELECT * FROM sold_products 
+		WHERE sku_product = '$sku' AND id_sale = '$id_sale'";
 		$product = array();
 		$qSelect = mysqli_query($this->connect_db, $sql);
 		if ($qSelect <> 'Error') { //valida error
@@ -95,9 +131,7 @@ class sales
 		$execute = mysqli_query($this->connect_db, $sql);
 		if (!$execute) {//valida error de insert
 			echo "Error al actualizar fecha: ". $this->connect_db->error . " " . $sql;
-		} else {
-			echo "Cantidad de producto actualizado " . $sql;
-		}
+		} 
 	}
 
 	function add_product($id_sale){
@@ -110,7 +144,7 @@ class sales
 			echo "Error al insertar producto: ". $this->connect_db->error . " " . $sql;
 		} else {
 			echo '<script>alert("Producto agregado a la lista de deseos")</script> ';
-			echo "<script>location.href='../shopping_car.php'</script>";
+			//echo "<script>location.href='../shopping_car.php'</script>";
 		}
 	}
 
@@ -122,34 +156,6 @@ class sales
 			$cart = mysqli_fetch_assoc($qSelect);
 		}	
 		return $cart;
-	}
-
-	function check_cart(){
-		//se consulta si hay compras de este usuario en espera (carrito)
-		$cart = $this->cart();
-		if ($cart <> null) { 
-			//si existe actualiza la fecha
-			$this->update_cart($cart['id_sale']);
-		} else {
-			//Si no existe inserta un carrito de compras nuevo para el usuario
-			$this->add_cart();
-			//luego vuelve a consultar para obtener los datos
-			$cart = $this->cart();	
-		}
-		//se obtienen los valores del producto por post
-		$this->sku 			= $_POST['sku'];
-		$this->description	= $_POST['description'];
-		$this->price 		= $_POST['price'];
-		$product = $this->product_exist($cart['id_sale'], $this->sku);
-		if ($product <> null) {
-			//si ya hay un producto se agrega la cantidad
-			$new_sum = $product['sum'] + 1;
-			$this->plus_product($cart['id_sale'], $this->sku, $new_sum);
-		} else{
-			//si no existe se agrega el producto
-			$this->add_product($cart['id_sale']);			
-		}
-		
 	}
 
 }

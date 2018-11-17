@@ -1,4 +1,7 @@
 <?php 
+extract($_GET);
+$id 	   = isset($_GET["id"]) ? $_GET["id"] : "";
+$type 	   = isset($_GET["type"]) ? $_GET["type"] : "";
 $details = $oProduct->Select('',$id);
  ?>
 <div class='row'>
@@ -36,6 +39,7 @@ $details = $oProduct->Select('',$id);
 				<tr>
 					<td height="30" align="center" colspan="2">
 						<input class="btn btn-danger" type="submit" value="Lo quiero">
+						<a href="index.php">Cancelar</a>			
 					</td>
 	          	</tr> 
 	          	</form>

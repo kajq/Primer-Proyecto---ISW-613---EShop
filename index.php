@@ -1,8 +1,6 @@
 <?php 
 	session_start();
 	require("class/connect_db.php");
-	extract($_GET);
-	$id 	   = isset($_GET["id"]) ? $_GET["id"] : "";
 	$type 	   = isset($_GET["type"]) ? $_GET["type"] : "";
 ?>
 <!DOCTYPE html>

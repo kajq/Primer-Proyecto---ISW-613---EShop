@@ -1,12 +1,14 @@
 <?php	
 session_start();
 include ("class\sales.php");
+include ("class/products.php");
 if (@!$_SESSION['username']) {
 		echo '<script>alert("Debes registrarte para poder comprar")</script> ';
 		//echo "<script>location.href='../index.php'</script>";	
 	}
 extract($_GET);
 $oSale = new sales();
+$oProduct = new products();
 $action	    = isset($_GET["action"])     ? $_GET["action"] : "";
 if ($action == 'new') {
 	$oSale->check_cart();
@@ -39,6 +41,9 @@ $products = $oSale->products_cart($cart['id_sale']);
 			</div>
 			<br><br>
 			<div class = "nav-collapse">
+				<?php 	if ($action == 'details') {
+					include ('include\product_details.php');
+				} ?>
 				<table>
 					<tr>
 						<td colspan="4"><h2>Tienda Electronica KAJQ S.A.</h2></td>
@@ -72,21 +77,25 @@ $products = $oSale->products_cart($cart['id_sale']);
 				<?php $cont = 0;
 				for ($i=0; $i < count($products)/6; $i++) { ?>
 				<tr>
-					<td><?php echo $products['sku='.$cont]; ?></td>
+					<td><?php echo "<a href='shopping_car.php?action=details&id=" . $products['sku='.$cont] . "' >" . $products['sku='.$cont] . "</a> <br/>"; ?></td>
 					<td><?php echo $products['description='.$cont]; ?></td>
 					<td><?php echo $products['sum='.$cont];
 					if ($products['sum='.$cont] > $products['in_stock='.$cont]) {
 						echo " <img src='..\images\alert.png' width='20' title='No alcanza esta cantidad de producto en bodega'>";
 					} else {
 						echo " <img src='..\images\\new.png' width='20' title='Más de este producto'>";
-					} ; ?>
+					} ?>
 					<img src="..\images\minus.png" width="20" title="Menos de este producto"> </td>
 					<td><?php echo "₡".$products['price='.$cont]; ?></td>
 					<td><?php echo "₡".$products['price='.$cont]*$products['sum='.$cont]; ?></td>
 				</tr>
 				<?php 
 					$cont++;
-				} ?>
+				}
+				if ($cont == 0) {
+					echo "<tr><td colspan='6'><label>No hay productos en lista de deseos</label></td></tr>";
+				}
+				 ?>
 			</table>
 			<hr/>
 			<footer>
