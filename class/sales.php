@@ -75,11 +75,32 @@ class sales
 		}
 	}
 
+	//Consulta si el producto ya esta agregado al carrito
+	function product_exist($id_sale, $sku){
+		$sql = "SELECT * FROM sold_products WHERE sku_product = '$sku' AND id_sale = '$id_sale'";
+		$product = array();
+		$qSelect = mysqli_query($this->connect_db, $sql);
+		if ($qSelect <> 'Error') { //valida error
+			if($qProduct = mysqli_fetch_assoc($qSelect)){
+				$product = $qProduct;
+			}
+		}
+		return $product; 	
+	}
+
+	//función que actualiza la fecha del carrito de compras
+	function plus_product($id_sale, $sku, $new_sum){
+		$sql = "UPDATE sold_products SET sum = '$new_sum' WHERE id_sale = '$id_sale' 
+		AND sku_product = '$sku'";
+		$execute = mysqli_query($this->connect_db, $sql);
+		if (!$execute) {//valida error de insert
+			echo "Error al actualizar fecha: ". $this->connect_db->error . " " . $sql;
+		} else {
+			echo "Cantidad de producto actualizado " . $sql;
+		}
+	}
+
 	function add_product($id_sale){
-		//se obtienen los valores del producto por post
-		$this->sku 			= $_POST['sku'];
-		$this->description	= $_POST['description'];
-		$this->price 		= $_POST['price'];
 		//Se inserta 1 producto al carrito
 		$sql = "INSERT INTO sold_products 
 		(id, id_Sale, sku_product, description, price, sum)
@@ -106,8 +127,8 @@ class sales
 	function check_cart(){
 		//se consulta si hay compras de este usuario en espera (carrito)
 		$cart = $this->cart();
-		if ($cart <> null) { //si existe
-			//actualiza la fecha
+		if ($cart <> null) { 
+			//si existe actualiza la fecha
 			$this->update_cart($cart['id_sale']);
 		} else {
 			//Si no existe inserta un carrito de compras nuevo para el usuario
@@ -115,8 +136,20 @@ class sales
 			//luego vuelve a consultar para obtener los datos
 			$cart = $this->cart();	
 		}
-		//se agrega producto
-		$this->add_product($cart['id_sale']);		
+		//se obtienen los valores del producto por post
+		$this->sku 			= $_POST['sku'];
+		$this->description	= $_POST['description'];
+		$this->price 		= $_POST['price'];
+		$product = $this->product_exist($cart['id_sale'], $this->sku);
+		if ($product <> null) {
+			//si ya hay un producto se agrega la cantidad
+			$new_sum = $product['sum'] + 1;
+			$this->plus_product($cart['id_sale'], $this->sku, $new_sum);
+		} else{
+			//si no existe se agrega el producto
+			$this->add_product($cart['id_sale']);			
+		}
+		
 	}
 
 }
