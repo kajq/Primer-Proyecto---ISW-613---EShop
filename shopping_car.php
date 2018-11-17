@@ -9,13 +9,27 @@ if (@!$_SESSION['username']) {
 extract($_GET);
 $oSale = new sales();
 $oProduct = new products();
-$action	    = isset($_GET["action"])     ? $_GET["action"] : "";
-if ($action == 'new') {
-	$oSale->check_cart();
-}
 $customer = $oSale->customer();
 $cart 	  = $oSale->cart();
 $products = $oSale->products_cart($cart['id_sale']);
+$action	    = isset($_GET["action"])     ? $_GET["action"] : "";
+$sku	    = isset($_GET["sku"])     ? $_GET["sku"] : "";
+$sum	    = isset($_GET["sum"])     ? $_GET["sum"] : "";
+if ($action == 'new') {
+	$oSale->check_cart();
+} elseif ($action == 'add') {
+	$sum++;
+	$oSale->change_sum($cart['id_sale'], $sku, $sum);
+	echo "<script>location.href='../shopping_car.php'</script>";		
+} elseif ($action == 'less') {
+	$sum--;
+	$oSale->change_sum($cart['id_sale'], $sku, $sum);
+	echo "<script>location.href='../shopping_car.php'</script>";		
+} elseif ($action == 'drop') {
+	$oSale->drop_product($sku);
+	echo "<script>location.href='../shopping_car.php'</script>";		
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -70,8 +84,8 @@ $products = $oSale->products_cart($cart['id_sale']);
 					<td>SKU</td>
 					<td>Detalle</td>
 					<td>Cantidad</td>
-					<td>Subtotal</td>
-					<td>Total</td>
+					<td>Precio</td>
+					<td>Sub Total</td>
 					<td>Eliminar</td>
 				</tr>
 				<?php 
@@ -82,14 +96,30 @@ $products = $oSale->products_cart($cart['id_sale']);
 					<td><?php echo "<a href='shopping_car.php?action=details&id=" . $products['sku='.$cont] . "' >" . $products['sku='.$cont] . "</a> <br/>"; ?></td>
 					<td><?php echo $products['description='.$cont]; ?></td>
 					<td><?php echo $products['sum='.$cont];
-					if ($products['sum='.$cont] > $products['in_stock='.$cont]) {
-						echo " <img src='..\images\alert.png' width='20' title='No alcanza esta cantidad de producto en bodega'>";
-					} else {
-						echo " <img src='..\images\\new.png' width='20' title='Más de este producto'>";
-					} ?>
-					<img src="..\images\minus.png" width="20" title="Menos de este producto"> </td>
+					if ($products['sum='.$cont] < $products['in_stock='.$cont]) {
+						echo "<a href='../shopping_car.php?action=add&sku=".$products['sku='.$cont]."&sum=".$products['sum='.$cont]."'> <img src='..\images\\new.png' width='20' title='Agregar'> </a>";
+					}
+					if ($products['sum='.$cont] > 1) {
+					 	echo "<a href='../shopping_car.php?action=less&sku=".        $products['sku='.$cont]."&sum=".$products['sum='.$cont]."'> <img src='..\images\minus.png' width='20' title='Disminuir'>";
+					 }
+					 if ($products['sum='.$cont] > $products['in_stock='.$cont]) {
+					 	if ($products['in_stock='.$cont] == 0) {
+					 		$msj = "Disculpa, pero ya no quedan ejemplares este producto \n Favor eliminar este registro";
+					 	} else {
+					 		$msj = "Disculpa, pero solo quedan ".$products['in_stock='.$cont] . " ejemplares de este producto \n Favor disminuir la cantidad";
+					 	}
+					   	echo "<img src='..\images\alert.png' width='20' title='".$msj."'>";
+					   }  
+					 ?>
+                         
+                    </a>
+					</td>
 					<td><?php echo "₡".$products['price='.$cont]; ?></td>
 					<td><?php echo "₡".$products['total='.$cont]; ?></td>
+					<td><a <?php echo "href='../shopping_car.php?action=drop&sku=" . $products['id='.$cont] . "'" ?> onclick="return confirm('¿Esta seguro de eliminar este producto?')">
+                        <img src="..\images\delete.png" width="30" title="Eliminar"> 
+                    	</a>
+                	</td>
 				</tr>
 				<?php 
 					$total = $total + $products['total='.$cont];
@@ -102,7 +132,7 @@ $products = $oSale->products_cart($cart['id_sale']);
 				 <tr>	
 				 	<td colspan="3"></td>
 				 	<td><h4>Total</h4></td>
-				 	<td><h4><?php echo "₡".$total ?></h4></td>
+				 	<td colspan="2"><h4><?php echo "₡".$total ?></h4></td>
 				 </tr>
 			</table>
 			<hr/>

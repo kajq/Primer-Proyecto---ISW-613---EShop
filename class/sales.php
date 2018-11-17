@@ -82,7 +82,7 @@ class sales
 			if ($product <> null) {
 				//si ya hay un producto se suma 1 a la cantidad 
 				$new_sum = $product['sum'] + 1;
-				$this->plus_product($cart['id_sale'], $this->sku, $new_sum);
+				$this->change_sum($cart['id_sale'], $this->sku, $new_sum);
 			} else {
 				//si no existe se agrega el producto
 				$this->add_product($cart['id_sale']);	
@@ -126,13 +126,13 @@ class sales
 		return $product; 	
 	}
 
-	//función que actualiza la fecha del carrito de compras
-	function plus_product($id_sale, $sku, $new_sum){
+	//función que actualiza la cantidad de un producto del carrito de compras
+	function change_sum($id_sale, $sku, $new_sum){
 		$sql = "UPDATE sold_products SET sum = '$new_sum' WHERE id_sale = '$id_sale' 
 		AND sku_product = '$sku'";
 		$execute = mysqli_query($this->connect_db, $sql);
 		if (!$execute) {//valida error de insert
-			echo "Error al actualizar fecha: ". $this->connect_db->error . " " . $sql;
+			echo "Error al actualizar dato: ". $this->connect_db->error . " " . $sql;
 		} 
 	}
 
@@ -146,7 +146,7 @@ class sales
 			echo "Error al insertar producto: ". $this->connect_db->error . " " . $sql;
 		} else {
 			echo '<script>alert("Producto agregado a la lista de deseos")</script> ';
-			//echo "<script>location.href='../shopping_car.php'</script>";
+			echo "<script>location.href='../shopping_car.php'</script>";
 		}
 	}
 
@@ -158,6 +158,17 @@ class sales
 			$cart = mysqli_fetch_assoc($qSelect);
 		}	
 		return $cart;
+	}
+
+	function drop_product($id){
+		$sql = "DELETE FROM sold_products WHERE id = '$id'";
+		$execute = mysqli_query($this->connect_db,$sql);
+		if (!$execute) {//validación de error
+			echo "Error al borrar producto: ". $this->connect_db->error . " " . $sql;
+		} else {
+			echo '<script>alert("Producto eliminado de la lista de deseos")</script> ';
+			echo "<script>location.href='../shopping_car.php'</script>";
+		}
 	}
 
 }
