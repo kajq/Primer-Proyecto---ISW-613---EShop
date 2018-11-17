@@ -2,7 +2,7 @@
 session_start();
 include ("class\sales.php");
 include ("class\products.php");
-if (@!$_SESSION['username']) {
+if (@!$_SESSION['username'] || $_SESSION['rol'] == '2') {
 		echo '<script>alert("Debes registrarte para poder comprar")</script> ';
 		echo "<script>location.href='../index.php'</script>";	
 	}

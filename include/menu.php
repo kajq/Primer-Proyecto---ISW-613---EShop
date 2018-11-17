@@ -34,6 +34,7 @@ class menu
 					 	<li><a href='../class/sign_off.php'>Cerrar Sesión</a></li>		 
 					</ul>
 				  </div>";
+			if ($this->rol == '1' || $this->rol == '0') {
 			echo "<div class='navbar'>
 					<ul class='nav pull-right'>
 						<li><a href='profile.php'>Perfil Usuario</a></li>		 
@@ -49,7 +50,8 @@ class menu
 					 	<li><a href='shopping_car.php'>Lista de deseos</a></li>		 
 					</ul>
 				  </div>";	  	    	
-			if ($this->rol == '1') {
+			}	  
+			if ($this->rol == '1' || $this->rol == 2) {
 				echo "<div class='navbar'>
 						<ul class='nav pull-right'>
 							<li><a href='admins.php'>Administradores</a></li>		 
@@ -71,6 +73,9 @@ class menu
 							<li><a href='Index.php'>Inicio</a></li>		 
 						</ul>
 					  </div>";
+			echo "<div class='navbar'>
+					<h4>Usuario: ". $_SESSION['username'] ."</h4>
+				</div>";
 		}
 	}
 }

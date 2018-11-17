@@ -1,6 +1,6 @@
 <?php 
 	session_start();
-	if (@!$_SESSION['username'] || $_SESSION['rol'] <> '1') {
+	if (@!$_SESSION['username'] || $_SESSION['rol'] == '0') {
 		echo '<script>alert("Usuario no autorizado!!")</script> ';
 		echo "<script>location.href='index.php'</script>";	
 	}
