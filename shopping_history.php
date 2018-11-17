@@ -29,7 +29,23 @@ $purchases = $oPurchase->select_purchases();
 			<div>
 				<?php include ('include/menu.php'); ?>
 			</div>
-			<br><br>
+			<div class = "nav-collapse">
+				<h3>Estadisticas del Administrativas</h3>
+				<table>
+					<tr>
+						<td>Usuarios Registrados</td>
+						<td><input type="number" readonly value="<?php echo $oPurchase->total_users();	 ?>"></td>
+					</tr>
+					<tr>
+						<td>Productos Vendidos</td>
+						<td><input type="number" readonly value="<?php echo $oPurchase->total_products();	 ?>"></td>
+					</tr>
+					<tr>
+						<td>Total de Ventas</td>
+						<td><input type="text" readonly value="<?php echo '₡'.$oPurchase->total_sales();	 ?>"></td>
+					</tr>
+				</table>
+			</div>
 			<div class = "nav-collapse">
 				<h3>Historial de compras del usuario</h3>
 			</div>

@@ -41,5 +41,32 @@ class purchases
         return $purchases;  
 	}
 
+	function total_users(){
+		$sql = "SELECT COUNT(user) total FROM users";
+		$execute = mysqli_query($this->connect_db, $sql);
+		$users = mysqli_fetch_assoc($execute);
+		return($users['total']);
+	}
+
+	function total_products(){
+		$sql = "SELECT sum(sp.sum) total FROM sold_products sp
+				 LEFT JOIN sales s
+				 ON s.id_sale = sp.id_sale
+				WHERE s.state = 1";
+		$execute = mysqli_query($this->connect_db, $sql);
+		$products = mysqli_fetch_assoc($execute);
+		return($products['total']);	
+	}
+
+	function total_sales(){
+		$sql = "SELECT sum(sp.sum * sp.price) total FROM sold_products sp 
+				 LEFT JOIN sales s 
+				 ON s.id_sale = sp.id_sale 
+				WHERE s.state = 1";
+		$execute = mysqli_query($this->connect_db, $sql);
+		$sales = mysqli_fetch_assoc($execute);
+		return($sales['total']);		
+	}
+
 }
  ?>

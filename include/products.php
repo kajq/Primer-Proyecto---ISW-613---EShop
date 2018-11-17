@@ -29,7 +29,7 @@ for ($i=0; $i < (count($category)/2); $i++) {
 	$product = $oProduct->Select($category["id=".$i],'');
 	echo "<div class='row'>";
 	for ($k=0; $k < (count($product)/6); $k++) { 
-		if ($product['in_stock='.$k] > 0) {
+		//if ($product['in_stock='.$k] > 0) {
 			echo 	"<div class='span6'>";
 			echo 		"<div class='thumbnail'>";
 			echo		  "<h4 style='text-align:center'>".$product['description='.$k]."</h4>";
@@ -38,7 +38,7 @@ for ($i=0; $i < (count($category)/2); $i++) {
 			echo 				"<a class='pull-right' href='Index.php?type=prod&id=" .        $product['sku='.$k] . "' >".$product['sku=' . $k]."</a> <br/>";
 			
 			echo 	"</div></div></div>";
-		}
+		//}
 	} if (count($product) == 0) {
 		echo "<div class='span6'> <h4 style='text-align:center'> No hay productos de esta categoria</h4> </div>";
 	}
