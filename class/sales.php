@@ -62,7 +62,7 @@ class sales
 		$cart = $this->cart();
 		if ($cart <> null) { 
 			//si existe actualiza la fecha
-			$this->update_cart($cart['id_sale']);
+			$this->update_cart($cart['id_sale'],0);
 		} else {
 			//Si no existe inserta un carrito de compras nuevo para el usuario
 			$this->add_cart();
@@ -104,8 +104,9 @@ class sales
 	}
 
 	//función que actualiza la fecha del carrito de compras
-	function update_cart($id_sale){
-		$sql = "UPDATE sales SET sale_date = now() WHERE id_sale = '$id_sale'";
+	function update_cart($id_sale, $state){
+		$sql = "UPDATE sales SET sale_date = now(), state = $state
+		 WHERE id_sale = '$id_sale'";
 		$execute = mysqli_query($this->connect_db, $sql);
 		if (!$execute) {//valida error de insert
 			echo "Error al actualizar fecha: ". $this->connect_db->error . " " . $sql;
@@ -133,6 +134,14 @@ class sales
 		$execute = mysqli_query($this->connect_db, $sql);
 		if (!$execute) {//valida error de insert
 			echo "Error al actualizar dato: ". $this->connect_db->error . " " . $sql;
+		} 
+	}
+
+	function lower_stock( $sku, $new_sum){
+		$sql = "UPDATE products SET in_stock = '$new_sum' WHERE sku = '$sku'";
+		$execute = mysqli_query($this->connect_db, $sql);
+		if (!$execute) {//valida error de insert
+			echo "Error al rebajar producto: ". $this->connect_db->error . " " . $sql;
 		} 
 	}
 
@@ -169,6 +178,19 @@ class sales
 			echo '<script>alert("Producto eliminado de la lista de deseos")</script> ';
 			echo "<script>location.href='../shopping_car.php'</script>";
 		}
+	}
+
+	function to_buy($id_sale, $products){
+/*[id=0][sku=0][description=0][price=0][sum=0][in_stock=0][total=0]
+[id=1][sku=1][description=1][price=1][sum=1][in_stock=1][total=1]
+[id=2][sku=2][description=2][price=2][sum=2][in_stock=2][total=2]*/
+	for ($i=0; $i < count($products)/7; $i++) { 
+		$new_sum = $products['in_stock='.$i] - $products['sum='.$i];
+		$this->lower_stock($products['sku='.$i], $new_sum);
+	}
+	$this->update_cart($id_sale, 1);
+	echo '<script>alert("Compra completada con exito!")</script> ';
+	echo "<script>location.href='../shopping_history.php'</script>";
 	}
 
 }

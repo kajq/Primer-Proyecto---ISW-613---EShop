@@ -4,7 +4,7 @@ include ("class\sales.php");
 include ("class/products.php");
 if (@!$_SESSION['username']) {
 		echo '<script>alert("Debes registrarte para poder comprar")</script> ';
-		//echo "<script>location.href='../index.php'</script>";	
+		echo "<script>location.href='../index.php'</script>";	
 	}
 extract($_GET);
 $oSale = new sales();
@@ -28,6 +28,8 @@ if ($action == 'new') {
 } elseif ($action == 'drop') {
 	$oSale->drop_product($sku);
 	echo "<script>location.href='../shopping_car.php'</script>";		
+} elseif ($action == 'to_buy') {
+	$oSale->to_buy($cart['id_sale'],$products);
 }
 
 ?>
@@ -66,16 +68,19 @@ if ($action == 'new') {
 						<td colspan="4"><h4>www.e-shop.cpm</h4></td>
 					</tr>
 					<tr>
+						<form action="/shopping_car.php?action=to_buy" method="post">
 						<td><label>Nombre Cliente:</label></td>
 						<td><input type="text" readonly value="<?php echo $customer['name'] . " " . $customer['last_name']; ?>"></td>
 						<td><label>Fecha:</label></td>
 						<td><input type="text" readonly data-date='' data-date-format="DD MMMM YYYY" value="<?php echo $customer['date']; ?>"></td>
+						<td rowspan="1"> <input class="btn btn-danger" type="submit" value="Confirmar Compra" onclick="return confirm('¿Esta seguro de realizar la compra?')"></td>
 					</tr>
 					<tr>
 						<td><label>Correo Electronico</label></td>
 						<td><input type="email" readonly value="<?php echo $customer['email']; ?>"></td>
 						<td><label>Teléfono</label></td>
 						<td><input type="number" readonly value="<?php echo $customer['phone']; ?>"></td>
+						</form>
 					</tr>
 				</table>
 			</div>
