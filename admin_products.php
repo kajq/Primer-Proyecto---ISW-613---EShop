@@ -16,7 +16,7 @@
 	$image 		= isset($_GET["image"]) 	 ? $_GET["image"] :"";
 	$category   = isset($_GET["category"])   ? $_GET["category"] :"";
 	$id_category= isset($_GET["id_category"])? $_GET["id_category"] :"";
-	$confirm = true;
+	$sum 		= isset($_GET["sum"])		 ? $_GET["sum"] : "";
 	
     if ($action == 'insert') {
     	$oProducto->validate_image('');

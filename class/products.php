@@ -37,6 +37,7 @@ class products
             $products['description='.$cont] = $product->description;
             $products['price='.$cont] = $product->price;
             $products['in_stock='.$cont] = $product->in_stock;
+            $products['sum='.$cont] = $product->sum;
             $products['img='.$cont] = $product->image_file;
             $cont++;
           	} 
@@ -52,7 +53,7 @@ class products
 			 ON prod.id_category = cat.id
 			 ORDER BY cat.id ASC");
 		$qSelect = $this->connect_db->query($sql);
-		$this->nums = 0;
+		$nums = 0;
 		while($array=mysqli_fetch_array($qSelect)){
 			echo "<tr class='success'>";
 			echo 	"<td><img src='/images/uploads/$array[4]' class='img-rounded' width='100' alt='' /></td>";
@@ -67,9 +68,9 @@ class products
 			//Boton de borrar
 			echo 	"<td><a href='admin_products.php?action=delete&id=$array[7]&description=$array[1]'><img src='../images/delete.png' class='img-rounded' width='25'></td>";
 			echo "</tr>";
-			$this->nums++;//Contador para detectar cantidad de productos
+			$nums++;//Contador para detectar cantidad de productos
 		}
-		if ($this->nums == 0) {//si no hay productos imprime el mensaje
+		if ($nums == 0) {//si no hay productos imprime el mensaje
 			echo "<tr><td colspan='8'>No hay productos registrados</td></tr>";
 		}
 	}
