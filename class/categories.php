@@ -41,26 +41,23 @@ class categories
 
 
 	function category_table(){
-		$sql=("SELECT cat.id, sup.description, cat.description, cat.state, sup.id 
+		$sql=("SELECT cat.id id_cat, sup.description categories, cat.description subcategories, cat.state, sup.id id_subc
 			FROM categories cat
 			 LEFT JOIN categories sup
 			 ON sup.id = cat.id_supercategory
 			 ORDER BY sup.id ASC");
 		$qSelect = $this->connect_db->query($sql);
 		$cont = 0;
-		while($array=mysqli_fetch_array($qSelect)){
-			echo "<tr class='success'>";
-			echo 	"<td>$array[1]</td>";
-			echo 	"<td>$array[2]</td>";
-			echo 	"<td>$array[3]</td>";
-			echo 	"<td><a href='admin_categories.php?action=edit&id=$array[0]&superc=$array[1]&category=$array[2]&state=$array[3]&id_superc=$array[4]'><img src='../images/update.jpg' class='img-rounded' width='25'></td>";
-			echo 	"<td><a href='admin_categories.php?action=delete&id=$array[0]&category=$array[2]'><img src='../images/delete.png' class='img-rounded' width='25'></td>";
-			echo "</tr>";
-			$cont++;
+		$categories = array();
+		while($array = $qSelect->fetch_object()){
+			$categories['id_cat='.$cont] = $array->id_cat;
+            $categories['categories='.$cont] = $array->categories;
+            $categories['subcategories='.$cont] = $array->subcategories;
+            $categories['state='.$cont] = $array->state;
+            $categories['id_subc='.$cont] = $array->id_subc;
+            $cont++;
 		}
-		if ($cont == 0) {
-			echo "<tr> <td colspan='5'>No hay categorias registradas</td> </tr>";
-		}
+		return $categories;
 	}
 
 	function insert_category(){
@@ -100,7 +97,7 @@ class categories
 		$sql = "DELETE FROM categories WHERE id = '$this->id' ";
 		$execute = mysqli_query($this->connect_db,$sql);
 		if (!$execute) {
-			echo "Error al actualizar categoria: ". $this->connect_db->error . "  " . $sql;
+			echo '<script>alert("No se puede eliminar esta categoria por que tiene productos asignados")</script> ';
 		}
 	}
 }

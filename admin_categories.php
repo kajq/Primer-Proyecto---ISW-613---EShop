@@ -13,20 +13,15 @@
 	$superc    = isset($_GET["superc"]) ? $_GET["superc"] : "";
 	$state     = isset($_GET["state"]) ? $_GET["state"] : 1;
 	$id 	   = isset($_GET["id"]) ? $_GET["id"] : "algo";
-	$confirm = True;
 	if ($state == 0) {$check_state = "";} else {$check_state = "checked";}
     if ($action == 'insert') {
     	$oCategoria->insert_category();
     } elseif ($action == 'update') {
     	$oCategoria->update_category($id);
     } elseif ($action == 'delete') {
-    	echo '<script>
-    	$confirm = confirm("¿Esta seguro de eliminar la categoria ' . $category . '?")
-    	</script> ';
-    	if ($confirm == true) {
-    		$oCategoria->delete_category($id);
-    	}
+    	$oCategoria->delete_category($id);
     }
+    $categories = $oCategoria->category_table(); 
 ?>
 <!DOCTYPE html>
 <html>
@@ -71,9 +66,18 @@
 					<td>Editar</td>
 					<td>Eliminar</td>
 				</tr>
-			<?php 
-				$oCategoria->category_table(); 
-			?>
+				<?php 
+				for ($i=0; $i < count($categories)/5; $i++) { ?>
+				<tr>	
+					<td><?php echo $categories['categories='.$i]; ?></td>
+					<td><?php echo $categories['subcategories='.$i]; ?></td>
+					<td><?php echo $categories['state='.$i]; ?></td>
+					<td> <?php echo "<a href='admin_categories.php?action=edit&id=" . $categories['id_cat='.$i]."&superc=".$categories['categories='.$i]."&category=".$categories['subcategories='.$i] . "&state=" . $categories['state='.$i]."&id_superc=".$categories['id_cat='.$i]."'><img src='../images/update.jpg' class='img-rounded' width='20'> </a>"; ?>
+					</td>
+					<td> <?php echo "<a href='admin_categories.php?action=delete&id=".$categories['id_cat='.$i]."&category=".$categories['subcategories='.$i]."'><img src='../images/delete.png' class='img-rounded' width='20'" ?> onclick="return 				confirm('¿Esta seguro de eliminar este producto?')"></a>  
+					</td>
+				</tr>
+				<?php 	} ?>
 			</table>
 			<hr/>
 			<footer>
