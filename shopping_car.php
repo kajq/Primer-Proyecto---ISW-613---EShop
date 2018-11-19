@@ -13,7 +13,6 @@ $customer = $oSale->customer();
 $cart 	  = $oSale->cart('');
 $products = $oSale->products_cart($cart['id_sale']);
 $action	    = isset($_GET["action"])     ? $_GET["action"] : "";
-$sku	    = isset($_GET["sku"])     ? $_GET["sku"] : "";
 $sum	    = isset($_GET["sum"])     ? $_GET["sum"] : "";
 if ($action == 'new') {
 	$oSale->check_cart();

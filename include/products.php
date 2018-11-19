@@ -35,7 +35,7 @@ for ($i=0; $i < (count($category)/2); $i++) {
 			echo		  "<h4 style='text-align:center'>".$product['description='.$k]."</h4>";
 			echo		"<img src='../images/uploads/".$product['img='.$k]."' width='250'/>";
 			echo 			"<div class='caption'>";
-			echo 				"<a class='pull-right' href='Index.php?type=prod&id=" .        $product['id='.$k] . "' >".$product['sku=' . $k]."</a> <br/>";
+			echo 				"<a class='pull-right' href='Index.php?type=prod&sku=" .        $product['sku='.$k] . "' >".$product['sku=' . $k]."</a> <br/>";
 			
 			echo 	"</div></div></div>";
 		//}

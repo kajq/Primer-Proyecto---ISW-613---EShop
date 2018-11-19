@@ -71,7 +71,7 @@
 				<tr>	
 					<td><?php echo $categories['categories='.$i]; ?></td>
 					<td><?php echo $categories['subcategories='.$i]; ?></td>
-					<td><?php echo $categories['state='.$i]; ?></td>
+					<td><?php if ($categories['state='.$i] == 1) { $state = 'Activo';}else {$state = 'Inactivo'; } echo $state; ?></td>
 					<td> <?php echo "<a href='admin_categories.php?action=edit&id=" . $categories['id_cat='.$i]."&superc=".$categories['categories='.$i]."&category=".$categories['subcategories='.$i] . "&state=" . $categories['state='.$i]."&id_superc=".$categories['id_cat='.$i]."'><img src='../images/update.jpg' class='img-rounded' width='20'> </a>"; ?>
 					</td>
 					<td> <?php echo "<a href='admin_categories.php?action=delete&id=".$categories['id_cat='.$i]."&category=".$categories['subcategories='.$i]."'><img src='../images/delete.png' class='img-rounded' width='20'" ?> onclick="return 				confirm('¿Esta seguro de eliminar este producto?')"></a>  
