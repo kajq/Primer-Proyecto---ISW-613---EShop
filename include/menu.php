@@ -49,7 +49,7 @@ class menu
 			if ($this->rol == '1' || $this->rol == 2) {
 				echo "<div class='navbar'>
 						<ul class='nav pull-right'>
-							<li><a href='admins.php'>Administradores</a></li>		 
+							<li><a href='admin_persons.php'>Administradores</a></li>		 
 						</ul>
 					  </div>";
 				echo "<div class='navbar'>

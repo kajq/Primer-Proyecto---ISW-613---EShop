@@ -29,7 +29,6 @@ class products
 			$where = "WHERE prod.id = '$id' ";
 		}
 		//Consulta de producto por categoria o por id
-		//$sql=("SELECT * FROM products " . $where . " ORDER BY id ASC");
 		$sql=("SELECT prod.sku, prod.description, prod.price, prod.in_stock, prod.image_file, cat.description category, prod.id_category, prod.id
 			FROM products prod
 			 LEFT JOIN categories cat
@@ -182,7 +181,6 @@ class products
 		if (!$execute) { //si hay algun error imprime
 			echo "Error al actualizar producto: ". $this->connect_db->error . "  " . $sql;
 		}
-		echo $sql;
 	}
 	//Elimar producto
 	function delete_product($id){
