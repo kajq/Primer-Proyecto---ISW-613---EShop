@@ -26,16 +26,16 @@ for ($i=0; $i < (count($category)/2); $i++) {
 	
 	echo "<br><br><br><br><br><br>";
 	}
-	$product = $oProduct->Select($category["id=".$i],'');
+	$product = $oProduct->Select($category["id=".$i],'','');
 	echo "<div class='row'>";
-	for ($k=0; $k < (count($product)/6); $k++) { 
+	for ($k=0; $k < (count($product)/8); $k++) { 
 		//if ($product['in_stock='.$k] > 0) {
 			echo 	"<div class='span6'>";
 			echo 		"<div class='thumbnail'>";
 			echo		  "<h4 style='text-align:center'>".$product['description='.$k]."</h4>";
 			echo		"<img src='../images/uploads/".$product['img='.$k]."' width='250'/>";
 			echo 			"<div class='caption'>";
-			echo 				"<a class='pull-right' href='Index.php?type=prod&id=" .        $product['sku='.$k] . "' >".$product['sku=' . $k]."</a> <br/>";
+			echo 				"<a class='pull-right' href='Index.php?type=prod&id=" .        $product['id='.$k] . "' >".$product['sku=' . $k]."</a> <br/>";
 			
 			echo 	"</div></div></div>";
 		//}

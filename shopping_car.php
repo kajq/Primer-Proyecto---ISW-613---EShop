@@ -26,7 +26,7 @@ if ($action == 'new') {
 	$oSale->change_sum($cart['id_sale'], $sku, $sum);
 	echo "<script>location.href='../shopping_car.php'</script>";		
 } elseif ($action == 'drop') {
-	$oSale->drop_product($sku);
+	$oSale->drop_product($id);
 	echo "<script>location.href='../shopping_car.php'</script>";		
 } elseif ($action == 'to_buy') {
 	$oSale->to_buy($cart['id_sale'],$products);
@@ -98,7 +98,7 @@ if ($action == 'new') {
 				$total = 0;
 				for ($i=0; $i < count($products)/7; $i++) { ?>
 				<tr>
-					<td><?php echo "<a href='shopping_car.php?action=details&id=" . $products['sku='.$cont] . "' >" . $products['sku='.$cont] . "</a> <br/>"; ?></td>
+					<td><?php echo "<a href='shopping_car.php?action=details&sku=" . $products['sku='.$cont] . "' >" . $products['sku='.$cont] . "</a> <br/>"; ?></td>
 					<td><?php echo $products['description='.$cont]; ?></td>
 					<td><?php echo $products['sum='.$cont];
 					if ($products['sum='.$cont] < $products['in_stock='.$cont]) {
@@ -120,7 +120,7 @@ if ($action == 'new') {
 					</td>
 					<td><?php echo "₡".$products['price='.$cont]; ?></td>
 					<td><?php echo "₡".$products['total='.$cont]; ?></td>
-					<td><a <?php echo "href='../shopping_car.php?action=drop&sku=" . $products['id='.$cont] . "'" ?> onclick="return confirm('¿Esta seguro de eliminar este producto?')">
+					<td><a <?php echo "href='../shopping_car.php?action=drop&id=" . $products['id='.$cont] . "'" ?> onclick="return confirm('¿Esta seguro de eliminar este producto?')">
                         <img src="..\images\delete.png" width="30" title="Eliminar"> 
                     	</a>
                 	</td>

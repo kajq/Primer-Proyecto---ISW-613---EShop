@@ -4,7 +4,7 @@ if ($action == 'new') {
 	$product_edit = null;
 	echo "<form  action='../admin_products.php?action=insert' method='post' enctype='multipart/form-data' >";
 }  elseif ($action == 'edit') {
-	$product_edit = $oProducto->select('', $id);
+	$product_edit = $oProducto->select('', $id,'');
 	echo "<form action='../admin_products.php?action=update&id=$id&img=" .             $product_edit['img=0']."' method='post' enctype='multipart/form-data'>";
 }
         ?>

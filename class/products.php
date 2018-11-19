@@ -19,7 +19,7 @@ class products
 		$this->connect_db 	= $_SESSION['connect'];
 	}
 
-	function select($category, $id) {
+	function select($category, $id, $sku) {
 
 		$where = '';
 		if ($category <> '') {
@@ -27,6 +27,9 @@ class products
 		}
 		if ($id <> '') {//si recibe el parametro id cambia el where
 			$where = "WHERE prod.id = '$id' ";
+		}
+		if ($sku <> '') {//si recibe el parametro id cambia el where
+			$where = "WHERE prod.sku = '$sku' ";
 		}
 		//Consulta de producto por categoria o por id
 		$sql=("SELECT prod.sku, prod.description, prod.price, prod.in_stock, prod.image_file, cat.description category, prod.id_category, prod.id
@@ -62,10 +65,10 @@ class products
 		if (!$execute) { //si hay algun error imprime
 			echo "Error al actualizar producto" . $this->connect_db->error . " " . $sql;
 			echo '<script>alert("Error al actualizar producto" . $this->connect_db->error . " " . $sql)</script> ';
-			//echo "<script>location.href='../admin_products.php'</script>";	
+			echo "<script>location.href='../admin_products.php'</script>";	
 		} else{
 			echo '<script>alert("Producto actualizado" . " " . $sql)</script> ';
-			//echo "<script>location.href='../admin_products.php'</script>";	
+			echo "<script>location.href='../admin_products.php'</script>";	
 		}
 	}
 

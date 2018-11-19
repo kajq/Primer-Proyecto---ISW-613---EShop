@@ -70,7 +70,7 @@
 					<td>Borrar</td>
 				</tr>
 			<?php //$oProducto->products_table(); 
-			$products = $oProducto->select('','');
+			$products = $oProducto->select('','','');
 			for ($i=0; $i < count($products)/8; $i++) { ?>
 				<tr class='success'>
 					<td> <?php echo "<img src='/images/uploads/".$products['img='.$i]."' class='img-rounded' width='100' alt='' />"; ?></td>

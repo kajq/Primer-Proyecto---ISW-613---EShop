@@ -2,7 +2,9 @@
 extract($_GET);
 $id 	   = isset($_GET["id"]) ? $_GET["id"] : "";
 $type 	   = isset($_GET["type"]) ? $_GET["type"] : "";
-$details = $oProduct->Select('',$id);
+$sku	    = isset($_GET["sku"])     ? $_GET["sku"] : "";
+$details = $oProduct->Select('','', $sku);
+
  ?>
 <div class='row'>
 	<div class='span6'>
