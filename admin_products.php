@@ -9,29 +9,16 @@
 	extract($_GET);
 	$action	    = isset($_GET["action"])     ? $_GET["action"] : "";
 	$id  		= isset($_GET["id"])        ? $_GET["id"] : "";
-	$sku  		= isset($_GET["sku"])        ? $_GET["sku"] : "";
-	$description= isset($_GET["description"])? $_GET["description"] : "";
-	$price      = isset($_GET["price"])      ? $_GET["price"] : "";
-	$in_stock   = isset($_GET["in_stock"])   ? $_GET["in_stock"] : 1;
-	$image 		= isset($_GET["image"]) 	 ? $_GET["image"] :"";
-	$category   = isset($_GET["category"])   ? $_GET["category"] :"";
-	$id_category= isset($_GET["id_category"])? $_GET["id_category"] :"";
-	$sum 		= isset($_GET["sum"])		 ? $_GET["sum"] : "";
+	$img  		= isset($_GET["img"])        ? $_GET["img"] : "";
 	
     if ($action == 'insert') {
     	$oProducto->validate_image('');
     	$oProducto->insert_product();
     } elseif ($action == 'update') {
-    	$oProducto->validate_image($image);
+    	$oProducto->validate_image($img);
     	$oProducto->update_product($id);
     } elseif ($action == 'delete') {
-    	echo '<script>
-    	$confirm = confirm("¿Esta seguro de eliminar el producto ' . 
-    	$description . '?")
-    	</script> ';
-    	if ($confirm == true) {
-    		$oProducto->delete_product($id);
-    	}
+    	$oProducto->delete_product($id);
     } elseif ($action == 'plus') {
     		$oProducto->plus_product($id, $in_stock);
     } 
@@ -71,7 +58,7 @@
                 	include ('include/form_product.php');
                 } ?>		
 			</div>
-			<table border='0' class='table table-hover'>
+			<table class='table table-hover'>
 				<tr class='warning'>
 					<td>Imagen</td>
 					<td>SKU</td>
@@ -82,9 +69,22 @@
 					<td>Editar</td>
 					<td>Borrar</td>
 				</tr>
-			<?php 
-				$oProducto->products_table(); 
-			?>
+			<?php //$oProducto->products_table(); 
+			$products = $oProducto->select('','');
+			for ($i=0; $i < count($products)/8; $i++) { ?>
+				<tr class='success'>
+					<td> <?php echo "<img src='/images/uploads/".$products['img='.$i]."' class='img-rounded' width='100' alt='' />"; ?></td>
+					<td> <?php echo $products['sku='.$i]; ?></td>
+					<td> <?php echo $products['description='.$i]; ?></td>
+					<td>₡<?php echo $products['price='.$i]; ?></td>
+					<td> <?php echo $products['in_stock='.$i] . "<a href='admin_products.php?action=plus&id=".$products['id='.$i] ."&in_stock=".$products['in_stock='.$i]."'><img src='../images/new.png' width='15'>" ; ?> 
+					</td>
+					<td> <?php echo $products['category='.$i] ; ?> </td>
+					<td> <?php echo "<a href='admin_products.php?action=edit&id=" .  $products['id='.$i] . "'><img src='../images/update.jpg' class='img-rounded' width='25'>";?>
+					</td>
+					<td> <a <?php 	echo " href='admin_products.php?action=delete&id=" .$products["id=".$i] . "&description=" . $products['description='.$i] . "'><img src='../images/delete.png' class='img-rounded' width='25'"; ?> onclick="return 				confirm('¿Esta seguro de eliminar este producto?')" > </td>
+				</tr>
+			<?php } ?>
 			</table>
 			<hr/>
 			<footer>

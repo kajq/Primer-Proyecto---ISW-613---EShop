@@ -21,59 +21,40 @@ class products
 
 	function select($category, $id) {
 
-		$where = "WHERE id_category = " . $category;
+		$where = '';
+		if ($category <> '') {
+			$where = "WHERE id_category = " . $category;
+		}
 		if ($id <> '') {//si recibe el parametro id cambia el where
-			$where = "WHERE sku = '$id' ";
+			$where = "WHERE prod.id = '$id' ";
 		}
 		//Consulta de producto por categoria o por id
-		$sql=("SELECT * FROM products " . $where . " ORDER BY id ASC");
+		//$sql=("SELECT * FROM products " . $where . " ORDER BY id ASC");
+		$sql=("SELECT prod.sku, prod.description, prod.price, prod.in_stock, prod.image_file, cat.description category, prod.id_category, prod.id
+			FROM products prod
+			 LEFT JOIN categories cat
+			 ON prod.id_category = cat.id " .
+			 $where . 
+			 " ORDER BY cat.id ASC");
 		$cont = 0;
 		$products = array(); 
 		$qSelect = $this->connect_db->query($sql);
 		if ($qSelect <> 'Error') {
 			while($product = $qSelect->fetch_object()){
-			$products['id='.$cont] = $product->id;
-            $products['sku='.$cont] = $product->sku;
-            $products['description='.$cont] = $product->description;
-            $products['price='.$cont] = $product->price;
-            $products['in_stock='.$cont] = $product->in_stock;
-            $products['sum='.$cont] = $product->sum;
-            $products['img='.$cont] = $product->image_file;
-            $cont++;
+				$products['id='.$cont] = $product->id;
+	            $products['sku='.$cont] = $product->sku;
+	            $products['description='.$cont] = $product->description;
+	            $products['price='.$cont] = $product->price;
+	            $products['in_stock='.$cont] = $product->in_stock;
+	            $products['id_category='.$cont] = $product->id_category;
+	            $products['category='.$cont] = $product->category;
+	            $products['img='.$cont] = $product->image_file;
+	            $cont++;
           	} 
-          }
+          } 
 		return $products;
 	}
-
-	//función que consulta los productos y los imprime en una tabla
-	function products_table(){
-		$sql=("SELECT prod.sku, prod.description, prod.price, prod.in_stock, prod.image_file, cat.description, prod.id_category, prod.id
-			FROM products prod
-			 LEFT JOIN categories cat
-			 ON prod.id_category = cat.id
-			 ORDER BY cat.id ASC");
-		$qSelect = $this->connect_db->query($sql);
-		$nums = 0;
-		while($array=mysqli_fetch_array($qSelect)){
-			echo "<tr class='success'>";
-			echo 	"<td><img src='/images/uploads/$array[4]' class='img-rounded' width='100' alt='' /></td>";
-			echo 	"<td>$array[0]</td>";
-			echo 	"<td>$array[1]</td>";
-			echo 	"<td>₡$array[2]</td>";
-			//se agrega un boton que llamara un metodo para comprar productos
-			echo 	"<td>$array[3] <a href='admin_products.php?action=plus&id=$array[7]&in_stock=$array[3]'><img src='../images/new.png' width='15'></td>";
-			echo 	"<td>$array[5]</td>";
-			//Boton de editar
-			echo 	"<td><a href='admin_products.php?action=edit&sku=$array[0]&description=$array[1]&price=$array[2]&image=$array[4]&category=$array[5]&id_category=$array[6]&id=$array[7]'><img src='../images/update.jpg' class='img-rounded' width='25'></td>";
-			//Boton de borrar
-			echo 	"<td><a href='admin_products.php?action=delete&id=$array[7]&description=$array[1]'><img src='../images/delete.png' class='img-rounded' width='25'></td>";
-			echo "</tr>";
-			$nums++;//Contador para detectar cantidad de productos
-		}
-		if ($nums == 0) {//si no hay productos imprime el mensaje
-			echo "<tr><td colspan='8'>No hay productos registrados</td></tr>";
-		}
-	}
+	
 
 	function plus_product($id, $in_stock){
 		$nums = $in_stock + 1;
@@ -173,10 +154,11 @@ class products
 		$this->description 	= $_POST['description'];
 		$this->price        = $_POST['price'];
 		$this->id_category  = $_POST['id_category'];
+		$this->in_stock  	= $_POST['in_stock'];
 		//se llama función para validar y procesar formulario
 		$this->validate_form($this->id_category, '');
 		//Se inserta a la bd
-		$qInsert = "INSERT INTO products VALUES('', '$this->sku', '$this->description', '$this->price', 0, '$this->image_file', $this->id_category)";
+		$qInsert = "INSERT INTO products VALUES('', '$this->sku', '$this->description', '$this->price', '$this->in_stock', '$this->image_file', $this->id_category)";
 		$execute = mysqli_query($this->connect_db,$qInsert);
 		//validación de error en bd
 		if (!$execute) {
@@ -190,15 +172,17 @@ class products
 		$this->sku 			= $_POST['sku'];
 		$this->description 	= $_POST['description'];
 		$this->price        = $_POST['price'];
+		$this->in_stock  	= $_POST['in_stock'];
 		$this->id_category  = $_POST['id_category'];
 		//llama a función que valida el formulario
 		$this->validate_form($this->id_category, $this->id);
 		//sentencia para actualzar el registro
-		$sql = "UPDATE products SET sku = '$this->sku', description = '$this->description',   price = '$this->price', image_file = '$this->image_file', id_category = '$this->id_category' WHERE id = '$this->id' ";
+		$sql = "UPDATE products SET sku = '$this->sku', description = '$this->description',   price = '$this->price', in_stock = '$this->in_stock',  image_file = '$this->image_file', id_category = '$this->id_category' WHERE id = '$this->id' ";
 		$execute = mysqli_query($this->connect_db,$sql);
 		if (!$execute) { //si hay algun error imprime
 			echo "Error al actualizar producto: ". $this->connect_db->error . "  " . $sql;
 		}
+		echo $sql;
 	}
 	//Elimar producto
 	function delete_product($id){
