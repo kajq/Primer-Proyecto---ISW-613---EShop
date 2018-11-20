@@ -1,7 +1,6 @@
 <?php
 function sendemail($mail_setFromEmail,$mail_setFromName,$mail_addAddress,$txt_message,$mail_subject, $template){
 	require 'PHPMailer/PHPMailerAutoload.php';
-	$link=$_SERVER["REMOTE_ADDR"];
 	$mail = new PHPMailer;
 	$mail->isSMTP();                            // Establecer el correo electrónico para utilizar SMTP
 	$mail->Host = 'smtp.gmail.com';             // Especificar el servidor de correo a utilizar 
@@ -17,16 +16,16 @@ function sendemail($mail_setFromEmail,$mail_setFromName,$mail_addAddress,$txt_me
 	$message = str_replace('{{first_name}}', $mail_setFromName, $message);
 	$message = str_replace('{{message}}', $txt_message, $message);
 	$message = str_replace('{{customer_email}}', $mail_setFromEmail, $message);
-	$message = str_replace('{{link}}', $link, $message);
+	//$message = str_replace('{{link}}', $link, $message);
 	$mail->isHTML(true);  // Establecer el formato de correo electrónico en HTML
 	
 	$mail->Subject = $mail_subject;
 	$mail->msgHTML($message);
 	if(!$mail->send()) {
-		echo '<p style="color:red">No se pudo enviar el mensaje..';
+		echo 'No se pudo enviar el mensaje.. \n';
 		echo 'Error de correo: ' . $mail->ErrorInfo."</p>";
 	} else {
-		echo '<p style="color:green">Tu mensaje ha sido enviado!</p>';
+		echo 'Notificación enviada correctamente!';
 	}
 }
 ?>
