@@ -27,6 +27,7 @@ class check_user{
 	$_SESSION['rol'] = '';
 	if($user = mysqli_fetch_assoc($execute)){
 		$_SESSION['username'] =	$user['user'];
+		$_SESSION['pass'] =	$user['password'];
 		$_SESSION['rol']	  =	$user['rol'];
 		$_SESSION['name']	  =	$user['name'];
 		$_SESSION['last_name']= $user['last_name'];

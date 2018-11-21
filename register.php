@@ -41,11 +41,29 @@ $user = new users();
         </tr>
         <tr>
           <td>
+            <label style="font-size: 14pt"><b>Contraseña</b></label>
+          </td>
+          <td>
+            <input type="password" name="pass" class="form-control" required 
+              placeholder="Contraseña" value='<?php echo $user->password ?>' >
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label style="font-size: 14pt"><b>Confirmar contraseña</b></label>
+          </td>
+          <td>
+            <input type="text" name="pass_confirm" class="form-control" required 
+              placeholder="Confirmar Contraseña">
+          </td>
+        </tr>
+        <tr>
+          <td>
             <label style="font-size: 14pt"><b>Nombre</b></label>
           </td>
           <td>
             <input type="text" name="name" class="form-control" required 
-              placeholder="Ingresa tu nombre" value=<?php echo $user->name ?> >
+              placeholder="Ingresa tu nombre" value='<?php echo $user->name ?>' >
           </td>
         </tr>
         <tr>
@@ -54,7 +72,7 @@ $user = new users();
           </td>
           <td>
             <input type="text" name="lastname"  class="form-control" required
-               placeholder="Ingresa tus apellidos" value=<?php echo $user->lastname ?> >
+               placeholder="Ingresa tus apellidos" value='<?php echo $user->lastname ?>' >
           </td>
         </tr>
         <tr>
@@ -65,7 +83,7 @@ $user = new users();
           </td>
           <td>
             <input type="number" name="phone" class="form-control"  required 
-              placeholder="Ingresa tu número" value=<?php echo $user->phone ?> >
+              placeholder="Ingresa tu número" value='<?php echo $user->phone ?>' >
           </td>
         </tr>
         <tr>
@@ -76,7 +94,7 @@ $user = new users();
           </td>
           <td>
             <input type="email" name="email" class="form-control"  required 
-              placeholder="Ingresa tu email" value=<?php echo $user->email ?>>
+              placeholder="Ingresa tu email" value='<?php echo $user->email ?>'>
           </td>
         </tr>
         <tr>         
@@ -93,26 +111,27 @@ $user = new users();
           echo "<td><input class='btn btn-danger' type='submit'   value='Cancelar'  onclick=\"window.location.href='index.php'\"</form>";
 
           if(isset($_POST['new'])){
-            $user->check_mail();
-            if ($user->email_exist == false) {
-              $user->get_pass();
-              $user->insert_user();
-              $user->sendemail(); 
-              echo "<script>location.href='index.php'</script>";
-            } else {
-              echo '<script>alert("Correo ya esta registrado!")</script> ';      
-            } 
+            if ($user->check_pass() == true) {
+                $user->check_mail();
+                if ($user->email_exist == false) {
+                  $user->insert_user();
+                  $user->sendemail(); 
+                  echo "<script>location.href='index.php'</script>";
+                } else {
+                  echo '<script>alert("Correo ya esta registrado!")</script> ';      
+                }
+              } 
           }
           if(isset($_POST['update'])){
-            $user->check_mail();
-            if ($user->email_exist == false) {
-              $user->get_pass();
-              $user->update_user();
-              $user->sendemail(); 
-              echo "<script>location.href='index.php'</script>";
-            } else {
-              echo '<script>alert("Correo ya esta registrado!")</script> ';      
-            }  
+              if ($user->check_pass() == true) {
+                $user->update_user();
+                $user->sendemail(); 
+                require("class/check_user.php");
+                $init = new check_user();
+                $init->check_userdb();
+                echo "<script>location.href='index.php'</script>";
+              }
+              
           }
           if (isset($_POST['cancel'])) {
             echo "<script>location.href='index.php'</script>";

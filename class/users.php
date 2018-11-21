@@ -10,7 +10,7 @@ class users{
 	public $lastname;
 	public $phone;
 	public $email;
-	private $password;
+	public $password;
 	public $email_exist;
 
 //Constructor valida si se esta registrando o editando un usurio y carga las variables
@@ -26,6 +26,7 @@ class users{
 		} else {
 		    $this->Accion=    "Editar";
 		    $this->user =     $_SESSION['username'];
+		    $this->password = $_SESSION['pass'];
 		    $this->name =     $_SESSION['name'];
 		    $this->lastname = $_SESSION['last_name'];
 		    $this->phone =    $_SESSION['phone'];
@@ -40,28 +41,34 @@ class users{
 
 		if($exists = mysqli_fetch_assoc($execute)){
 			echo '<script>alert("Error: Correo ya esta asignado a un usuario, verifique sus datos")</script> ';
-			//echo "<script>location.href='register.php'</script>";
+			echo "<script>location.href='register.php'</script>";
 			$this->email_exist = true;
 		} else {
 			$this->email_exist = false;
 		}
 	}
 
+	function check_pass(){
+		$check = true;
+		if ($_POST['pass'] <> $_POST['pass_confirm']) {
+			echo '<script>alert("Contraseñas no coinciden")</script> ';      
+			$check = false;
+		} 
+		return $check;
+	}
+
 	//Función que genera una contraseña aleatoreamente
-	function get_pass(){
+	/*function get_pass(){
 		for ($i=0; $i < 12; $i++) { 
 			$this->password = $this->password . chr(rand(65,90));
 		}
-	}
+	}*/
 
 	//función que llama otra función que envia un correo de confirmación con la contraseña
 	function sendemail(){
 		include("sendemail.php");//Llama la funcion para enviar el correo electronico
 		$template="email_template.html";//Ruta de la plantilla correo
-		$txt_message="Se ha creado exitosamente su usuario en www.e-shop.com, su tienda online preferida. 
-		Para ingresar debes utilizar la contraseña: [ $this->password ]. 
-		Por seguridad es importante que cambies la contraseña al ingresar.
-		";
+		$txt_message="Se ha creado exitosamente su usuario en www.e-shop.com, su tienda online preferida.";
 		$mail_subject="Usuario Registrado exitosamente";
 		
 		sendemail($this->email, $this->name, $this->email, $txt_message, $mail_subject, $template);//Enviar el mensaje
@@ -71,11 +78,12 @@ class users{
 	//funcion que inserta en la tabla user y person
 	function insert_user(){
 		//se capturan los parametros del post
-	   	$this->user=		$_POST['user'];
-		$this->name=		$_POST['name'];
+	   	$this->user     =	$_POST['user'];
+		$this->name 	=	$_POST['name'];
 		$this->lastname =	$_POST['lastname'];
-		$this->phone = 		$_POST['phone'];
-		$this->email = 		$_POST['email'];
+		$this->phone    =	$_POST['phone'];
+		$this->email    =	$_POST['email'];
+		$this->password =   $_POST['pass'];
 
 		$qInsert = "INSERT INTO person VALUES('$this->user','$this->name', '$this->lastname', '$this->phone', '$this->email')";
 		$execute = mysqli_query($this->connect_db,$qInsert);
@@ -95,6 +103,20 @@ class users{
 				echo '<script>alert("Usuario registrado con éxito")</script>';
 				}
 			}
+	}
+
+	function update_user(){
+		$this->name=		$_POST['name'];
+		$this->lastname =	$_POST['lastname'];
+		$this->phone = 		$_POST['phone'];
+		$this->email = 		$_POST['email'];
+		$sql = "UPDATE person SET name = '$this->name', last_name = '$this->lastname', phone = '$this->phone', email = '$this->email' WHERE user = '$this->user' ";
+		$execute = mysqli_query($this->connect_db,$sql);
+		if (!$execute) {
+			echo "Error al actualizar Usuario: ". $this->connect_db->error . "  " . $sql;
+		} else {
+			echo '<script>alert("Datos Actualizados exitosamente")</script> ';
+		}
 	}
 }
 ?>
