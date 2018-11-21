@@ -5,18 +5,18 @@ class users{
 
 	private $connect_db;
 	public $Accion;
-	private $user;
-	private $name;
-	private $lastname;
-	private $phone;
-	private $email;
+	public $user;
+	public $name;
+	public $lastname;
+	public $phone;
+	public $email;
 	private $password;
 	public $email_exist;
 
 //Constructor valida si se esta registrando o editando un usurio y carga las variables
 	function users(){
 		$this->connect_db = $_SESSION['connect'];
-		if (@!$_SESSION['user']) {
+		if (@!$_SESSION['username']) {
 		    $this->Accion=    "Registrar";
 		    $this->user=		"";
 			$this->name=		"";
@@ -25,9 +25,9 @@ class users{
 			$this->email = 		"";
 		} else {
 		    $this->Accion=    "Editar";
-		    $this->user =     $_SESSION['user'];
+		    $this->user =     $_SESSION['username'];
 		    $this->name =     $_SESSION['name'];
-		    $this->lastname = $_SESSION['lastname'];
+		    $this->lastname = $_SESSION['last_name'];
 		    $this->phone =    $_SESSION['phone'];
 		    $this->email =    $_SESSION['email'];
 		}

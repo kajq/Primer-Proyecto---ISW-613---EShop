@@ -1,3 +1,7 @@
+<?php   
+require("class/users.php");
+$user = new users();
+         ?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -26,11 +30,22 @@
         <form method="post" action="" >
         <tr>
           <td>
+            <label style="font-size: 14pt; color: #;"><b>Usuario</b></label>
+          </td>
+          <td>
+            <input type="text" name="user" class="form-control"  required
+               placeholder="Ingresa usuario" <?php if ($user->Accion == "Editar") {
+                 echo 'readonly ';
+              }echo 'value='.$user->user; ?> >
+          </td>
+        </tr>
+        <tr>
+          <td>
             <label style="font-size: 14pt"><b>Nombre</b></label>
           </td>
           <td>
             <input type="text" name="name" class="form-control" required 
-              placeholder="Ingresa tu nombre" />
+              placeholder="Ingresa tu nombre" value=<?php echo $user->name ?> >
           </td>
         </tr>
         <tr>
@@ -39,16 +54,7 @@
           </td>
           <td>
             <input type="text" name="lastname"  class="form-control" required
-               placeholder="Ingresa tus apellidos"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label style="font-size: 14pt; color: #;"><b>Usuario</b></label>
-          </td>
-          <td>
-            <input type="text" name="user" class="form-control"  required 
-               placeholder="Ingresa usuario"/>
+               placeholder="Ingresa tus apellidos" value=<?php echo $user->lastname ?> >
           </td>
         </tr>
         <tr>
@@ -59,7 +65,7 @@
           </td>
           <td>
             <input type="number" name="phone" class="form-control"  required 
-              placeholder="Ingresa tu número"/>
+              placeholder="Ingresa tu número" value=<?php echo $user->phone ?> >
           </td>
         </tr>
         <tr>
@@ -70,23 +76,22 @@
           </td>
           <td>
             <input type="email" name="email" class="form-control"  required 
-              placeholder="Ingresa tu email"/>
+              placeholder="Ingresa tu email" value=<?php echo $user->email ?>>
           </td>
         </tr>
         <tr>         
         <?php
-        require("class/users.php");
-         $user = new users();
           if ($user->Accion == "Registrar"){
             echo "<td><input  class='btn btn-primary' type='submit' name='new' value='Registrarse'/> </td>" ;
-            echo "<td><input class='btn btn-danger' type='submit'   value='Cancelar'  onclick=\"window.location.href='index.php'\"</form>";
-          }else if ($this->Accion == "Editar"){
+          }else if ($user->Accion == "Editar"){
             echo "<td><input  class='btn btn-primary' type='submit' name='update' value='Actualizar'/> </td>";
-            echo "<td><input class='btn btn-danger' type='cancel'   name='cancel' value='Cancelar'></form>";
           } else{
             echo 'Error al registrar';
             echo "<script>location.href='index.php'</script>";
           }
+
+          echo "<td><input class='btn btn-danger' type='submit'   value='Cancelar'  onclick=\"window.location.href='index.php'\"</form>";
+
           if(isset($_POST['new'])){
             $user->check_mail();
             if ($user->email_exist == false) {
@@ -94,10 +99,20 @@
               $user->insert_user();
               $user->sendemail(); 
               echo "<script>location.href='index.php'</script>";
-            }  
+            } else {
+              echo '<script>alert("Correo ya esta registrado!")</script> ';      
+            } 
           }
           if(isset($_POST['update'])){
-            require("ejecutaactualizar.php");
+            $user->check_mail();
+            if ($user->email_exist == false) {
+              $user->get_pass();
+              $user->update_user();
+              $user->sendemail(); 
+              echo "<script>location.href='index.php'</script>";
+            } else {
+              echo '<script>alert("Correo ya esta registrado!")</script> ';      
+            }  
           }
           if (isset($_POST['cancel'])) {
             echo "<script>location.href='index.php'</script>";
