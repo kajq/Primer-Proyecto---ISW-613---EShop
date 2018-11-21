@@ -53,7 +53,7 @@ $user = new users();
             <label style="font-size: 14pt"><b>Confirmar contraseña</b></label>
           </td>
           <td>
-            <input type="text" name="pass_confirm" class="form-control" required 
+            <input type="password" name="pass_confirm" class="form-control" required 
               placeholder="Confirmar Contraseña">
           </td>
         </tr>
@@ -117,8 +117,6 @@ $user = new users();
                   $user->insert_user();
                   $user->sendemail(); 
                   echo "<script>location.href='index.php'</script>";
-                } else {
-                  echo '<script>alert("Correo ya esta registrado!")</script> ';      
                 }
               } 
           }
@@ -129,7 +127,7 @@ $user = new users();
                 require("class/check_user.php");
                 $init = new check_user();
                 $init->check_userdb();
-                echo "<script>location.href='index.php'</script>";
+                //echo "<script>location.href='index.php'</script>";
               }
               
           }

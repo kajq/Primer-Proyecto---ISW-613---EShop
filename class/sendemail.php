@@ -6,7 +6,7 @@ function sendemail($mail_setFromEmail,$mail_setFromName,$mail_addAddress,$txt_me
 	$mail->Host = 'smtp.gmail.com';             // Especificar el servidor de correo a utilizar 
 	$mail->SMTPAuth = true;                     // Habilitar la autenticacion con SMTP
 	$mail->Username = "taskmanagerV2.0@gmail.com";// Correo electronico saliente ejemplo: tucorreo@gmail.com
-	$mail->Password = "207360344"; 		// Tu contraseña de gmail
+	$mail->Password = "A123456789*"; 		// Tu contraseña de gmail
 	$mail->SMTPSecure = 'tls';                  // Habilitar encriptacion, `ssl` es aceptada
 	$mail->Port = 587;                          // Puerto TCP  para conectarse 
 	$mail->setFrom($mail_setFromEmail, $mail_setFromName);//Introduzca la dirección de la que debe aparecer el correo electrónico. Puede utilizar cualquier dirección que el servidor SMTP acepte como válida. El segundo parámetro opcional para esta función es el nombre que se mostrará como el remitente en lugar de la dirección de correo electrónico en sí.

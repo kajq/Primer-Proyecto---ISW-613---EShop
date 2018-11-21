@@ -19,6 +19,7 @@ class users{
 		if (@!$_SESSION['username']) {
 		    $this->Accion=    "Registrar";
 		    $this->user=		"";
+			$this->password =   "";
 			$this->name=		"";
 			$this->lastname =	"";
 			$this->phone = 		"";
@@ -36,12 +37,12 @@ class users{
 
 	//Función que verifica que el email no exista en la bd
 	function check_mail(){
+		$this->email    =	$_POST['email'];
 		$qMails  = ("SELECT email FROM person WHERE email = '$this->email'");
 		$execute = mysqli_query($this->connect_db, $qMails);
 
 		if($exists = mysqli_fetch_assoc($execute)){
-			echo '<script>alert("Error: Correo ya esta asignado a un usuario, verifique sus datos")</script> ';
-			echo "<script>location.href='register.php'</script>";
+			echo '<script>alert("Error: Correo ya esta asignado a un usuario, verifique sus datos")</script> ';	
 			$this->email_exist = true;
 		} else {
 			$this->email_exist = false;
@@ -56,13 +57,6 @@ class users{
 		} 
 		return $check;
 	}
-
-	//Función que genera una contraseña aleatoreamente
-	/*function get_pass(){
-		for ($i=0; $i < 12; $i++) { 
-			$this->password = $this->password . chr(rand(65,90));
-		}
-	}*/
 
 	//función que llama otra función que envia un correo de confirmación con la contraseña
 	function sendemail(){
@@ -97,8 +91,7 @@ class users{
 			$qInsert = "INSERT INTO users VALUES('$this->user', '$this->password', 0, 0)";
 			$execute = mysqli_query($this->connect_db,$qInsert);
 			if (!$execute) {
-				echo '<script>alert("Errormessage1: "';
-				echo $this->connect_db->error . "')</script>";
+				echo '<script>alert("Error al insertar Usuarios")</script>';
 			} else {
 				echo '<script>alert("Usuario registrado con éxito")</script>';
 				}
