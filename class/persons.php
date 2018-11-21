@@ -11,6 +11,7 @@ class persons
 		$this->connect_db 	= $_SESSION['connect'];
 	}
 
+	//Select que retorna la información de todos los usuarios, se usa en el admin de users
 	function select(){
 		$sql=("SELECT p.*, case when u.state = 0 then 'Inactivo' else 'Activo' end state, u.rol, case when u.rol = 0 then 'Estandar' else 'Admin' end drol from person p
 			    LEFT JOIN users u
@@ -36,6 +37,7 @@ class persons
 		return $users;
 	}
 
+	//función que intercambia el rol de un usuario para hacerlo admin o estandar
 	function change_rol($user, $rol){
 		if ($rol == 0) { $rol = 1;} else { $rol = 0;}
 		$sql = "UPDATE users SET rol = '$rol' WHERE user = '$user' ";

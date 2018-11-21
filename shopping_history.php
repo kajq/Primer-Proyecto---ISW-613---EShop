@@ -1,4 +1,4 @@
-<?php 	
+<?php //historias de compras del usuario y datos estadisticos
 session_start();
 include ("class\purchases.php");
 if (@!$_SESSION['username']) {

@@ -1,4 +1,4 @@
-<?php	
+<?php	//Crud que represental al carrito de compras
 session_start();
 include ("class\sales.php");
 include ("class\products.php");

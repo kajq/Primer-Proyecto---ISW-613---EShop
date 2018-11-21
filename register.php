@@ -1,4 +1,4 @@
-<?php   
+<?php   //Formulario de registro
 require("class/users.php");
 $user = new users();
          ?>

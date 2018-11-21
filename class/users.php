@@ -49,6 +49,7 @@ class users{
 		}
 	}
 
+	//Función que verifica las contraseñas del formulario sean iguales
 	function check_pass(){
 		$check = true;
 		if ($_POST['pass'] <> $_POST['pass_confirm']) {
@@ -58,7 +59,7 @@ class users{
 		return $check;
 	}
 
-	//función que llama otra función que envia un correo de confirmación con la contraseña
+	//función que llama otra función que envia un correo de confirmación
 	function sendemail(){
 		include("sendemail.php");//Llama la funcion para enviar el correo electronico
 		$template="email_template.html";//Ruta de la plantilla correo
@@ -66,10 +67,9 @@ class users{
 		$mail_subject="Usuario Registrado exitosamente";
 		
 		sendemail($this->email, $this->name, $this->email, $txt_message, $mail_subject, $template);//Enviar el mensaje
-		//echo "<script>location.href='index.php'</script>";
 	}
 
-	//funcion que inserta en la tabla user y person
+	//funcion que inserta en la tabla user y person cuando se registra un usuario
 	function insert_user(){
 		//se capturan los parametros del post
 	   	$this->user     =	$_POST['user'];
@@ -98,6 +98,7 @@ class users{
 			}
 	}
 
+	//Función al actualizar datos de un usuario
 	function update_user(){
 		$this->name=		$_POST['name'];
 		$this->lastname =	$_POST['lastname'];

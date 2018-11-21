@@ -1,4 +1,4 @@
-	<?php  
+<?php  //Formulario de productos
 
 if ($action == 'new') {
 	$product_edit = null;

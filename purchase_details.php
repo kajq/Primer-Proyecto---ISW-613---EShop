@@ -1,4 +1,4 @@
-<?php	
+<?php	//pantalla para ver los detalles de compras seleccionadas
 session_start();
 include ("class\sales.php");
 include ("class\products.php");

@@ -10,6 +10,7 @@ class cronjob_class
 	private $email;
 	private $products = array(); 
 
+	//contructor recibe cantidad minima de producto y correo a notificar
 	function cronjob_class($pMin_num, $pEmail)
 	{
 		$this->connect_db 	= $_SESSION['connect'];
@@ -17,6 +18,7 @@ class cronjob_class
 		$this->email 		= $pEmail;
 	}
 
+	//funcion que discrimina de la base datos los productos que tengan meno o igual valor al minimo indicado, retorna el resultado en un arreglo
 	function search_min(){
 		$sql = "SELECT * FROM products WHERE in_stock <= '$this->min_num'";
 		$cont = 0;
@@ -33,16 +35,17 @@ class cronjob_class
 		return $this->products;
 	}
 
+	//Función que se encarga de llamar a otra función que envia el correo
 	function sendemail(){
 		include("sendemail.php");//Llama la funcion para enviar el correo electronico
 		$template="email_template.html";//Ruta de la plantilla correo
-		$txt_message= $this->low_products();
+		$txt_message= $this->low_products();//llama a función que contruye tabla
 		$mail_subject="Productos en stock menor a " . $this->min_num;
 		
-		sendemail($this->email, 'Administrador', $this->email, $txt_message, $mail_subject, $template);//Enviar el mensaje
-		//echo "<script>location.href='index.php'</script>";
+		sendemail($this->email, 'Administrador', $this->email, $txt_message, $mail_subject, $template);//Envia el mensaje
 	}
 
+	//Función que contruye una tabla con los productos bajos en stock
 	function low_products(){
 		$msj = "<h6>Productos con ". $this->min_num ." unidades o menos en stock</h6>
 			<table class='table table-hover'>

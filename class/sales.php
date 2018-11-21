@@ -57,6 +57,7 @@ class sales
 		return $customer; 
 	}
 
+	//funcion de validación para el carrito,
 	function check_cart(){
 		//se consulta si hay compras de este usuario en espera (carrito)
 		$cart = $this->cart('');
@@ -84,16 +85,16 @@ class sales
 				$new_sum = $product['sum'] + 1;
 				$this->change_sum($cart['id_sale'], $this->sku, $new_sum);
 			} else {
-				//si no existe se agrega el producto
+				//si no existe, se agrega el producto al carrito
 				$this->add_product($cart['id_sale']);	
 			}
-		} else	{
+		} else	{//validación cuando detecta que no quedan productos
 			echo '<script>alert("Lo sentimos, no quedan '.$this->description.' en bodega")</script> ';
 			echo "<script>location.href='../index.php'</script>";	
 		}
 	}
 
-	//funcion para agregar carrito de compras
+	//funcion para agregar carrito de compras utilizado en el check_Cart
 	function add_cart(){
 		$sql = "INSERT INTO `sales` (`id_sale`, `user`, `sale_date`, `state`) VALUES (NULL, '$this->user', now(), '0')";
 		$execute = mysqli_query($this->connect_db,$sql);
@@ -103,7 +104,7 @@ class sales
 		}	
 	}
 
-	//función que actualiza la fecha del carrito de compras
+	//función que actualiza la fecha del carrito de compras usado en el check_Cart
 	function update_cart($id_sale, $state){
 		$sql = "UPDATE sales SET sale_date = now(), state = $state
 		 WHERE id_sale = '$id_sale'";
@@ -137,6 +138,7 @@ class sales
 		} 
 	}
 
+	//función diminuye la cantidad de productos en stock al comprar
 	function lower_stock( $sku, $new_sum){
 		$sql = "UPDATE products SET in_stock = '$new_sum' WHERE sku = '$sku'";
 		$execute = mysqli_query($this->connect_db, $sql);
@@ -145,6 +147,7 @@ class sales
 		} 
 	}
 
+	//Se inserta un nuevo producto al carrito
 	function add_product($id_sale){
 		//Se inserta 1 producto al carrito
 		$sql = "INSERT INTO sold_products 
@@ -159,6 +162,7 @@ class sales
 		}
 	}
 
+	//obtiene la información del dueño del carrito 
 	function cart($id_sale){
 		$where = "state = 0";
 		if ($id_sale <> '') {
@@ -173,6 +177,7 @@ class sales
 		return $cart;
 	}
 
+	//Función que borra un producto del carrito
 	function drop_product($id){
 		$sql = "DELETE FROM sold_products WHERE id = '$id'";
 		$execute = mysqli_query($this->connect_db,$sql);
@@ -184,18 +189,16 @@ class sales
 		}
 	}
 
+	//Función que llama la función de bajar productos a todos los que estan en el carrito
 	function to_buy($id_sale, $products){
-/*[id=0][sku=0][description=0][price=0][sum=0][in_stock=0][total=0]
-[id=1][sku=1][description=1][price=1][sum=1][in_stock=1][total=1]
-[id=2][sku=2][description=2][price=2][sum=2][in_stock=2][total=2]*/
 	for ($i=0; $i < count($products)/7; $i++) { 
 		$new_sum = $products['in_stock='.$i] - $products['sum='.$i];
 		$this->lower_stock($products['sku='.$i], $new_sum);
-	}
+	}//finalmente actualiza el estado a 1, que siginica vendido
 	$this->update_cart($id_sale, 1);
 	echo '<script>alert("Compra completada con exito!")</script> ';
 	echo "<script>location.href='../shopping_history.php'</script>";
-	}
+	}//redirecciona
 
 }
 

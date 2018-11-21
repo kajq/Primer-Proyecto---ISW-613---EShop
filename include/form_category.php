@@ -1,4 +1,4 @@
-<?php  
+<?php  //Formulario de categorias de productos
 extract($_GET);
 if ($action == 'new') {
 	echo "<form  action='../admin_categories.php?action=insert' method='post'>";

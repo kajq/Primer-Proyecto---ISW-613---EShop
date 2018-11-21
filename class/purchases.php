@@ -16,6 +16,7 @@ class purchases
 		$this->connect_db 	= $_SESSION['connect'];
 	}
 
+	//FUnción busca ventas en estado 1, que significa que fueron compradas
 	function select_purchases($user){
 		$where = " WHERE s.state = 1 ";
 		if ($user <> 'admin') {
@@ -46,6 +47,7 @@ class purchases
         return $purchases;  
 	}
 
+	//función que cuenta los usuarios registrados
 	function total_users(){
 		$sql = "SELECT COUNT(user) total FROM users";
 		$execute = mysqli_query($this->connect_db, $sql);
@@ -53,6 +55,7 @@ class purchases
 		return($users['total']);
 	}
 
+	//función que suma la cantidad de productos
 	function total_products($user){
 		$where = 'WHERE s.state = 1 ';
 		if ($user <> 'admin') {
@@ -66,6 +69,7 @@ class purchases
 		return($products['total']);	
 	}
 
+	//función que suma el total de dinero vendido
 	function total_sales($user){
 		$where = "WHERE s.state = 1 ";
 		if ($user <> 'admin') {

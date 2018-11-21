@@ -1,4 +1,4 @@
-<?php
+<?php //función que utiliza gmail para enviar distintos correos
 function sendemail($mail_setFromEmail,$mail_setFromName,$mail_addAddress,$txt_message,$mail_subject, $template){
 	require 'PHPMailer/PHPMailerAutoload.php';
 	$mail = new PHPMailer;

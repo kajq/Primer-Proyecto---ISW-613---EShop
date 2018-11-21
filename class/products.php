@@ -19,6 +19,7 @@ class products
 		$this->connect_db 	= $_SESSION['connect'];
 	}
 
+	//función que retorna arreglo de productos, los puede discriminar por categoria, id y sku, dependiendo de la necesidad
 	function select($category, $id, $sku) {
 
 		$where = '';
@@ -57,7 +58,7 @@ class products
 		return $products;
 	}
 	
-
+	//función que aumenta la cantidad de un producto en stock
 	function plus_product($id, $in_stock){
 		$nums = $in_stock + 1;
 		$sql = "UPDATE products SET in_stock = '$nums' WHERE id = '$id' ";
@@ -149,7 +150,7 @@ class products
 		}
 	} 
 
-	//Agregar nuevo producto
+	//Función para agregar nuevo producto
 	function insert_product(){
 		//se capturan valores del formulario
 		$this->sku 			= $_POST['sku'];
@@ -185,7 +186,7 @@ class products
 			echo "Error al actualizar producto: ". $this->connect_db->error . "  " . $sql;
 		}
 	}
-	//Elimar producto
+	//Elimar producto, recibe parametro id del producto.
 	function delete_product($id){
 		$this->id = $id;//se captura el id y se ejecuta el borrado de la bd
 		$sql = "DELETE FROM products WHERE id = '$this->id' ";

@@ -1,4 +1,4 @@
-<?php 	
+<?php //Pantalla de administración de usuarios
 session_start();
 include ("class\persons.php");
 if (@!$_SESSION['username']) {

@@ -1,4 +1,4 @@
-<?php 
+<?php //Cronjob para enviar notificaciones con productros bajos en stock
 //Se incluye la logica del cronjob
 include ("class/cronjob_class.php");
 //se validan los parametros minimos

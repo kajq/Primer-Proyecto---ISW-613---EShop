@@ -1,4 +1,4 @@
-<?php 
+<?php  //formulario de detalles de producto
 extract($_GET);
 $id 	   = isset($_GET["id"]) ? $_GET["id"] : "";
 $type 	   = isset($_GET["type"]) ? $_GET["type"] : "";

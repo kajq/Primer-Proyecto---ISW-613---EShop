@@ -1,4 +1,4 @@
-<?php 
+<?php //Pantalla de administración de categorias
 	session_start();
 	if (@!$_SESSION['username'] || $_SESSION['rol'] == '0') {
 		echo '<script>alert("Usuario no autorizado!!")</script> ';

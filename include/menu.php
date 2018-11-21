@@ -1,5 +1,5 @@
 <?php
-/**
+/**Menu de opciones
  * 
  */
 $init = new menu();
