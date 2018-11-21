@@ -1,6 +1,6 @@
 <hr class="soften"/>
 <div class="row" style="text-align:left;">
-<?php 
+<?php //include de productos que se muestran en el incio
 include ("class/categories.php");
 include ("class/products.php");
 $oCategory = new categories();

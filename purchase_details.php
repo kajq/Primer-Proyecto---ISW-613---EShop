@@ -79,7 +79,7 @@ $products = $oSale->products_cart($id_sale);
 				$total = 0;
 				for ($i=0; $i < count($products)/7; $i++) { ?>
 				<tr>
-					<td><?php echo "<a href='shopping_car.php?action=details&id=" . $products['sku='.$cont] . "' >" . $products['sku='.$cont] . "</a> <br/>"; ?></td>
+					<td><?php echo "<a href='shopping_car.php?action=details&sku=" . $products['sku='.$cont] . "' >" . $products['sku='.$cont] . "</a> <br/>"; ?></td>
 					<td><?php echo $products['description='.$cont]; ?></td>
 					<td><?php echo $products['sum='.$cont]; ?>		</td>
 					<td><?php echo "₡".$products['price='.$cont]; ?></td>
