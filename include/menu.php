@@ -37,7 +37,7 @@ class menu
 			if ($this->rol == '1' || $this->rol == '0') {
 			echo "<div class='navbar'>
 					<ul class='nav pull-right'>
-						<li><a href='profile.php'>Perfil Usuario</a></li>		 
+						<li><a href='register.php'>Perfil Usuario</a></li>		 
 					</ul>
 				  </div>";
 			echo "<div class='navbar'>

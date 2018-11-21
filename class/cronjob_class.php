@@ -30,7 +30,6 @@ class cronjob_class
 	            $cont++;
           	} 
           } 
-         echo $sql;
 		return $this->products;
 	}
 
@@ -45,7 +44,7 @@ class cronjob_class
 	}
 
 	function low_products(){
-		$msj = "<h6>Productos con ". $this->min_num ." o menos en stock</h6>
+		$msj = "<h6>Productos con ". $this->min_num ." unidades o menos en stock</h6>
 			<table class='table table-hover'>
 				<tr class='warning'>
 					<td>id</td>
